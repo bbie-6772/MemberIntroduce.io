@@ -1,53 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko">
-    
-<head>
+  <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
     <script type="module">
 
-        $(document).ready(function() {
+      $("#header").load("./_include/header.html");
 
-            $(#header).load("include/header.html");
-           
-            $(#guestbook).load("include/guestbook.html");
+      $("#guestbook").load("./_include/guestbook.html");
 
-            $(#membercard).load("include/membercard.html");
-            
-            $(#cardmodal).load("include/cardmodal.html");
+      $("#membercard").load("./_include/membercard.html");
 
-            $(#addcard).load("include/addcard.html");
-            
-        })
+      $("#cardmodal").load("./_include/cardmodal.html");
 
+      $("#addcard").load("./_include/addcard.html");
+
+      console.log($("#guestbook").val())
     </script>
+  </head>
 
+  <body>
+    <header id="header"></header>
 
-</head>
+    <div id="addcard"></div>
 
-<body>
-    <header id="header">
-    </header>
+    <div id="membercard"></div>
 
-    <div id="addcard">
+    <div id="cardmodal"></div>
 
-    </div>
-
-    <div id="membercard">
-
-    </div>
-
-    <div id="cardmodal">
-
-    </div>
-
-    <div id="guestbook">
-
-    </div>
-
-</body>
+    <div id="guestbook"></div>
+  </body>
 </html>
