@@ -21,6 +21,8 @@
          response.text().then((html) => {
           let html_dom = new DOMParser().parseFromString(html, "text/html");
 
+          html_dom = html_dom.body.firstChild;
+
           const guestbook = document.querySelector("#guestbook");
 
           guestbook.insertAdjacentHTML('beforeend',html_dom);
