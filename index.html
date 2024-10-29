@@ -19,11 +19,9 @@
       await fetch("https://api.github.com/repos/bbie-6772/MemberIntroduce/contents/_include/guestbook.html")
       .then((response) => {
          response.text().then((html) => {
-          let html_dom = new DOMParser().parseFromString(html, "text/html");
 
-          const guestbook = document.querySelector("#guestbook");
+          document.querySelector("#guestbook").innerHTML = html;
 
-          guestbook.innerHTML = html_dom;
          });
       });
  
