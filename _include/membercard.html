@@ -1,18 +1,222 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<html lang="en">
 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>카드 만들기</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .allcard {
+            width: 1400px;
+            display: flex;
+            justify-content: center;
+            margin: 30px auto 0px auto;
+
+        }
 
 
-    
+        .myteamcard {
+            height: auto;
+            width: auto;
+            padding: 15px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: whitesmoke;
+            margin:24px 10px 0px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        .card {
+            flex-direction: row;
+            background-color: transparent;
+            border: 1px solid transparent;
+        }
+
+        .faceimge {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            width: 175px;
+            height: 225px;
+            border-radius: 5px;
+        }
+
+        .cardtext {
+            margin: 0px 0px 0px 20px;
+            padding: 15px;
+            border: 1px solid black;
+            border-radius: 5px;
+            text-align: center;
+            background-color: white;
+        }
+
+        .cardtext2 {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid black;
+            border-radius: 5px;
+            width: 287px;
+            background-color: white;
+        }
+
+
+        .blog-link {
+            display: flex;
+            justify-content: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+
+        .plsbt{
+            height: 500px;
+            width: 320px;
+            border-radius: 5px;
+        }
+
+
+        .postingbtng{
+            height: 500px;
+            width: 330px;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
-
 <body>
+
     
+    <div class="allcard">
+        <div class="row row-cols-1 row-cols-md-3 g-4" >
+            <div class="postingbtng" id="cardlist">
+                <button id="plsbt" type="button" class="plsbt">추가하기</button>
+            </div>
+            
+        </div>
+
+    </div>
+
+
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <h4>팝업 창</h4>
+            <p>이곳에 추가 정보를 입력할 수 있습니다.</p>
+            <button class="close-btn" id="clbtn">닫기</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+        let docs = await getDocs(collection(db, "existence"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            let image = row['image'];
+            let name = row['name'];
+            let mbti = row['mbti'];
+            let hobby = row['hobby'];
+            let merit = row['merit'];
+            let collaboration = row['collaboration'];
+            let resolution = row['resolution'];
+            let blogaddress = row['blogaddress'];
+
+            let temp_html = `        
+           <div class="myteamcard" id="myteamcard">
+                <div class="card">
+                    <img src="${image}"
+                        class="faceimge">
+                    <div class="cardtext">
+                        <h5 class="card-title">이름<p>${name}</p>
+                        </h5>
+                        <h5 class="card-text">mbti<p>${mbti}</p>
+                        </h5>
+                        <h5 class="card-text">취미<p>${hobby}</p>
+                        </h5>
+                    </div>
+                </div>
+                <div class="cardtext2">
+                    <h5 class="card-title">장점: ${merit}</p>
+                    </h5>
+                    <h5 class="card-title">협업 스타일: ${collaboration}</p>
+                    </h5>
+                    <h5 class="card-title">다짐: ${resolution}</p>
+                    </h5>
+                </div>
+                <a href="${blogaddress}" target="_blank" class="blog-link"
+                    onclick="event.stopPropagation()">blog</a>
+            </div>`;
+            $(temp_html).insertBefore('#cardlist');
+        });
+           
+
+        $("#myteamcard").click(async function () {
+            document.getElementById("popup").style.display = "flex";
+        })
+
+        $("#clbtn").click(async function () {
+            document.getElementById("popup").style.display = "none";
+        })
+
+
+
+    </script>
+
 </body>
+
 </html>
