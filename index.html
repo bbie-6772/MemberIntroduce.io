@@ -17,15 +17,18 @@
     <script type="module">
 
       await fetch("https://api.github.com/repos/bbie-6772/MemberIntroduce/contents/_include/guestbook.html")
-      .then((response) =>
-          response.text().then((html) =>
-          var html_dom = new DOMParser().parseFromString(html, "text/html");
+      .then((response) => {
+         response.text().then((html) => {
+          let html_dom = new DOMParser().parseFromString(html, "text/html");
 
           const guestbook = document.querySelector("#guestbook");
 
           guestbook.insertAdjacentElement('beforeend',html_dom);
-        );
-      );
+         });
+      });
+ 
+        
+
     </script>
   </head>
 
