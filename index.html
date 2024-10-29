@@ -22,28 +22,16 @@
 
       $("#addcard").load("./_include/addcard.html");
 
+      $("#editmode").load("./_include/editmode.html");
+
       console.log($("#guestbook").val())
       
-      $("#editbtn").click(async function () {
-        $('#cardlist').toggle();
-      })
+      
     </script>
   </head>
 
   <body>
-    <header id="header"></header>
-    <button id="editbtn" class="btn1" type="button" >편집모드</button>
-
-    <div id="addcard"></div>
-    <div class="allcard">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="postingbtng" id="cardlist" style="display: none">
-                <button id="plsbt" type="button" class="plsbt">추가하기</button>
-            </div>
-
-        </div>
-
-    </div>
+    <header id="header"></header>   
     <div id="membercard"></div>
 
     <div id="cardmodal"></div>
