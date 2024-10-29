@@ -16,19 +16,17 @@
 
     <script type="module">
 
-            await fetch("https://api.github.com/repos/bbie-6772/MemberIntroduce/contents/_include/guestbook.html").then((response) =>
-                console.log(response)
-            );
+        await fetch("https://api.github.com/repos/bbie-6772/MemberIntroduce/contents/_include/guestbook.html").then((response) =>
+            response.text().then((html) =>
 
-          $("#header").load("./_include/header.html");
+            let html_dom = new DOMParser().parseFromString(html, "text/html");
 
-          $("#guestbook").load("https://api.github.com/repos/bbie-6772/MemberIntroduce/contents/_include/guestbook.html");
+            const guestbook = document.querySelector("#guestbook");
 
-          $("#membercard").load("./_include/membercard.html");
+            guestbook.insertAdjacentElement('beforeend',html_dom);
+          );
+        );
 
-          $("#cardmodal").load("./_include/cardmodal.html");
-
-          $("#addcard").load("./_include/addcard.html");
     </script>
   </head>
 
