@@ -12,16 +12,6 @@
 
     <script type="module">
 
-      $("#header").load("./_include/header.html");
-
-      $("#guestbook").load("./_include/guestbook.html");
-
-      $("#membercard").load("./_include/membercard.html");
-
-      $("#cardmodal").load("./_include/cardmodal.html");
-
-      $("#addcard").load("./_include/addcard.html");
-
     </script>
   </head>
 
@@ -34,6 +24,11 @@
 
     <div id="cardmodal"></div>
 
-    <div id="guestbook"></div>
+    <div id="guestbook">
+
+      {% include guestbook.html %}
+      
+    </div>
+
   </body>
 </html>
