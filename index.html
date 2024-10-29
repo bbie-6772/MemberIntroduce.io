@@ -16,10 +16,6 @@
 
     <script type="module">
 
-          const octokit = new Octokit({
-            auth: process.env.TOKEN,
-          });
-
             await fetch("https://api.github.com/repos/bbie-6772/MemberIntroduce/contents/_include/guestbook.html").then((response) =>
                 console.log(response)
             );
