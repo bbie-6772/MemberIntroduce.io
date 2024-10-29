@@ -26,7 +26,7 @@
             border: 1px solid black;
             border-radius: 5px;
             background-color: whitesmoke;
-            margin:24px 10px 0px 10px;
+            margin: 24px 10px 0px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -78,14 +78,14 @@
         }
 
 
-        .plsbt{
+        .plsbt {
             height: 500px;
             width: 320px;
             border-radius: 5px;
         }
 
 
-        .postingbtng{
+        .postingbtng {
             height: 500px;
             width: 330px;
         }
@@ -126,13 +126,13 @@
 
 <body>
 
-    
+
     <div class="allcard">
-        <div class="row row-cols-1 row-cols-md-3 g-4" >
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="postingbtng" id="cardlist">
                 <button id="plsbt" type="button" class="plsbt">추가하기</button>
             </div>
-            
+
         </div>
 
     </div>
@@ -203,7 +203,7 @@
             </div>`;
             $(temp_html).insertBefore('#cardlist');
         });
-           
+
 
         $("#myteamcard").click(async function () {
             document.getElementById("popup").style.display = "flex";
