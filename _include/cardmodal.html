@@ -1,18 +1,259 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 
-    
+    <style>
+        .member_modal {
+
+            margin: 0;
+        }
+
+        div {
+            box-sizing: border-box;
+        }
+
+        .black-bg {
+            width: 100%;
+            height: 100%;
+            background: rgba(158, 195, 144, 0.668);
+            position: fixed;
+            padding: 20px;
+        }
+
+
+        /*
+        .white-bg {
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+            border-radius: 8px;
+            /* margin: 5% 0px 0px 0px;
+             위 아래 ?  왼쪽
+            padding: 20px;
+
+        }*/
+
+        #row_card {
+
+            width: 900px;
+            height: 500px;
+            display: flex;
+            border-radius: 8px;
+            display: flex;
+            /*flex-direction: column;*/
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            margin: 0px;
+            background-color: white;
+        }
+
+        .imgcard {
+            width: 200px;
+            height: 460;
+
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+
+
+
+        #myimage {
+
+            width: 180px;
+            height: 200px;
+        }
+
+        .inline_block {
+            display: flex;
+            /*flex-direction: column;*/
+            flex-direction: row;
+            /*수평축에서 중앙으로 정렬합니다.(좌우에서 중앙)*/
+            align-items: center;
+
+            /*수직축에서 중앙으로 정렬합니다.(상하에서 중앙)*/
+            justify-content: center;
+        }
+
+        #link_img {
+            width: 80px;
+            height: 80px;
+            padding: 5px;
+        }
+
+
+
+
+        .info0 {
+
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+
+        }
+
+        #info1 {
+
+            width: 250px;
+            height: 400;
+            padding: 3px;
+        }
+
+        #info2 {
+
+            width: 250px;
+            height: 400;
+            padding: 3px;
+
+        }
+
+        .info3 {
+
+            width: 300px;
+            height: 400;
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+        }
+
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            /*수평축에서 중앙으로 정렬합니다.(좌우에서 중앙)*/
+            align-items: center;
+
+            /*수직축에서 중앙으로 정렬합니다.(상하에서 중앙)*/
+            justify-content: center;
+        }
+
+        .column {
+            display: flex;
+            /*Flexbox의 기본 방향을 세로로 설정합니다. 내부의 아이템 수직으로 배열됩니다.*/
+            flex-direction: column;
+        }
+
+        .btn-group {
+
+            display: flex;
+            /*Flexbox의 기본 방향을 세로로 설정합니다. 내부의 아이템 수직으로 배열됩니다.*/
+            flex-direction: column;
+            margin-left: 10px;
+            /* 버튼 그룹을 info2 오른쪽에 띄워주기 위한 여백 */
+        }
+    </style>
+
+
 </head>
 
 
 <body>
-    
+
+    <div class="member_modal">
+        <div class="black-bg">
+            <div class="white-bg">
+                <div id="row_card">
+
+                    
+                        <div class="imgcard">
+                            <img id="myimage"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnXYzdxnAYl6BbsQ4cMmkJS9jHmRRQhX2NeQ&s"
+                                class="card-img-top" alt="...">
+
+                            <div>
+                                <div class="inline_block">
+                                    <!--Git버튼-->
+                                    <button id="gitbtn">
+                                        <img id="link_img"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnXYzdxnAYl6BbsQ4cMmkJS9jHmRRQhX2NeQ&s"
+                                            class="card-img-top" alt="...">
+                                    </button>
+                                    <!--블로그버튼-->
+                                    <button id="blbtn">
+                                        <img id="link_img"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnXYzdxnAYl6BbsQ4cMmkJS9jHmRRQhX2NeQ&s"
+                                            class="card-img-top" alt="...">
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    
+
+                    <div class='column'>
+                        <div id='info0' class='row'>
+                            <div id='info1'>
+                                <ul class="list-group">
+                                    <li class="list-group-item">An item</li>
+                                    <li class="list-group-item">A second item</li>
+                                    <li class="list-group-item">A third item</li>
+                                    <li class="list-group-item">A fourth item</li>
+                                    <li class="list-group-item">And a fifth one</li>
+                                </ul>
+                            </div>
+                            <div id='info2'>
+                                <ul class=" list-group">
+                                    <li class="list-group-item">An item</li>
+                                    <li class="list-group-item">A second item</li>
+                                    <li class="list-group-item">A third item</li>
+                                    <li class="list-group-item">A fourth item</li>
+                                    <li class="list-group-item">And a fifth one</li>
+                                </ul>
+                            </div>
+                            <div>
+                            <div class='btn-group'>
+                                <button type="button" class="btn btn-outline-secondary">Secondary</button>
+                                <button type="button" class="btn btn-outline-secondary">Secondary</button>
+                            </div></div>
+                        </div>
+
+                        <di class='row'>
+                            <div id='info3id'>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                                        <p class="card-text">Some quick example text to build on the card title and make
+                                            up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div>
+                                <div class="btn-group-vertical" role="group"
+                                    aria-label="Vertical radio toggle button group">
+                                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1"
+                                        autocomplete="off" checked>
+                                    <label class="btn btn-outline-danger" for="vbtn-radio1">Radio 1</label>
+                                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
+                                        autocomplete="off">
+                                    <label class="btn btn-outline-danger" for="vbtn-radio2">Radio 2</label>
+                                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
+                                        autocomplete="off">
+                                    <label class="btn btn-outline-danger" for="vbtn-radio3">Radio 3</label>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
 </body>
+
 </html>
