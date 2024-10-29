@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko">
+    
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script type="module">
+
+        $(document).ready(function() {
+
+            $(#header).load("include/header.html");
+           
+            $(#guestbook).load("include/guestbook.html");
+
+            $(#membercard).load("include/membercard.html");
+            
+            $(#cardmodal).load("include/cardmodal.html");
+
+            $(#addcard).load("include/addcard.html");
+            
+        })
+
+    </script>
+
+
 </head>
+
 <body>
-    
+    <header id="header">
+    </header>
+
+    <div id="addcard">
+
+    </div>
+
+    <div id="membercard">
+
+    </div>
+
+    <div id="cardmodal">
+
+    </div>
+
+    <div id="guestbook">
+
+    </div>
+
 </body>
 </html>
