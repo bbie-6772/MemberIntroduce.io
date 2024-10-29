@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -12,29 +14,19 @@
 
     <script type="module">
 
-      $("#header").load("./_include/header.html");
-
-      $("#guestbook").load("./_include/guestbook.html");
-
-      $("#membercard").load("./_include/membercard.html");
-
-      $("#cardmodal").load("./_include/cardmodal.html");
-
-      $("#addcard").load("./_include/addcard.html");
-
-      console.log($("#guestbook").val())
     </script>
   </head>
 
   <body>
-    <header id="header"></header>
 
-    <div id="addcard"></div>
+    {% include header.html %}
 
-    <div id="membercard"></div>
+    {% include membercard.html %}
 
-    <div id="cardmodal"></div>
+    {% include cardmodal.html %}
 
-    <div id="guestbook"></div>
+    {% include addcard.html %}
+
+    {% include guestbook.html %}
   </body>
 </html>
