@@ -175,15 +175,15 @@
         const db = getFirestore(app);
 
 
-        let docs = await getDocs(collection(db, "existence"));
+        let docs = await getDocs(collection(db, "members"));
         docs.forEach((doc) => {
             let row = doc.data();
             let image = row['image'];
             let name = row['name'];
             let mbti = row['mbti'];
             let hobby = row['hobby'];
-            let merit = row['merit'];
-            let collaboration = row['collaboration'];
+            let strengths = row['strengths'];
+            let collaborationStyle = row['collaborationStyle'];
             let resolution = row['resolution'];
             let blogaddress = row['blogaddress'];
 
@@ -202,9 +202,9 @@
                     </div>
                 </div>
                 <div class="cardtext2">
-                    <h5 class="card-title">장점: ${merit}</p>
+                    <h5 class="card-title">장점: ${strengths}</p>
                     </h5>
-                    <h5 class="card-title">협업 스타일: ${collaboration}</p>
+                    <h5 class="card-title">협업 스타일: ${collaborationStyle}</p>
                     </h5>
                     <h5 class="card-title">다짐: ${resolution}</p>
                     </h5>
