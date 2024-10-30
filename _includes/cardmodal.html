@@ -1,17 +1,295 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
+    <title>member_card</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    <style>
+        body {
+            font-size: 15px;
+        }
+
+        #bg {
+            background-color: rgb(108, 209, 162, 0.767);
+            width: 1000px;
+            height: 600px;
+            border-radius: 30px;
+
+            padding: 5px;
+            margin: 30px;
+
+            box-shadow: 0px 0px 30px 0px rgb(88, 163, 128);
+        }
+
+        #popup {
+
+        }
+
+        #imgsbox {
+
+            padding: 5px;
+            margin-right: 15px;
+            border-radius: 30px;
+        }
+
+        #infobox {
+
+            padding: 5px;
+            margin-left: 30px;
+            border-radius: 30px;
+            background-color: white;
+        }
+
+        #myimage {
+            width: 300px;
+            height: 400px;
+
+
+        }
+
+        #link_img {
+            width: 100px;
+            ;
+            height: 100px;
+        }
+
+        #gitBtn {
+
+            margin: 10px 10px 0px 10px;
+            padding: 1px;
+        }
+
+        #blBtn {
+
+            margin: 10px 10px 0px 10px;
+            padding: 1px;
+        }
+
+        #infoup {
+            margin: 10px 10px 0px 5px;
+            border-radius: 10px;
+            height: 160px;
+        }
+
+        #infodown {
+
+            margin: 10px 10px 0px 5px;
+            border-radius: 10px;
+            height: 300px;
+        }
+
+        #info1 {
+            height: max-content;
+        }
+
+        #info2 {
+            background-color: rgba(108, 209, 162, 0.41);
+            border-radius: 10px;
+            height: 160px;
+            text-align: left;
+        }
+
+        #reviseben {
+            width: 80px;
+            margin: 10px;
+            padding: 3px;
+        }
+
+        #deleteBtn {
+
+            margin: 10px;
+            padding: 3px;
+        }
+
+        #info3 {
+            height: 300px;
+            background-color: rgba(108, 209, 162, 0.41);
+            border-radius: 10px;
+            text-align: left;
+        }
+    </style>
+
+
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
+            authDomain: "sparta-1aa54.firebaseapp.com",
+            projectId: "sparta-1aa54",
+            storageBucket: "sparta-1aa54.appspot.com",
+            messagingSenderId: "210610766907",
+            appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
+            measurementId: "G-8ETLMBCMF2"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+
+        let docs = await getDocs(collection(db, "members"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            let imageUrl = row['imageUrl'];
+            let name = row['name'];
+            let mbti = row['mbti'];
+            let hobby = row['hobby'];
+            let strengths = row['strengths'];
+            let collaborationStyle = row['collaborationStyle'];
+            let resolution = row['resolution'];
+            let blogLink = row['blogLink'];
+
+            let temp_html = `  `
+            console.log('된다')
+            let cardElement = $(temp_html).insertBefore('#popup');
+            $("#strengths").show
+    $("#collaborationStyle").hide
+    $("#resolution").hide
+        })
+// 텍스트 -> 버튼으로 토글 사용하기
+$("#strengthsBtn").click(function () { // 장점
+    $("#strengths").show
+    $("#collaborationStyle").hide
+    $("#resolution").hide
+        });
+       
+        $("#collaborationStyleBtn").click(function () { //협업스타일
+            $("#strengths").hide
+    $("#collaborationStyle").show
+    $("#resolution").hide
+        });
+        $("#resolutionBtn").click(function () { //각오
+            $("#strengths").hide
+    $("#collaborationStyle").hide
+    $("#resolution").show
+        });
+        /*
+        $("#hide_btn").click(function() {
+    $("#panel").hide(500);
+});
+$("#show_btn").click(function() {
+    $("#panel").show(1000);
+});*/
+
+                          
+                            
+
+    </script>
 </head>
 
-
 <body>
-    
+    <div id="bg">
+        <div id="popup" class="container text-center">
+            <div class="row">
+                <div id="imgsbox" class="col-3">
+                    <div class="imgcard">
+                        <img id="myimage"
+                            src="data:image/jpeg;base64,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"
+                            class="card-img-top" alt="...">
+
+                        <div>
+                            <div class="row">
+                                <!--Git버튼-->
+                                <button id="gitBtn" type="button" class="col btn btn-outline-success">
+                                    <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
+                                    <img id="link_img"
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
+                                        class="card-img-top" alt="...">
+                                    </a>
+                                </button>
+                                <!--블로그버튼-->
+                                <button id="blBtn" type="button" class="col btn btn-outline-success">
+                                    <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
+                                    <img id="link_img"
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
+                                        class="card-img-top" alt="...">
+                                    </a>
+
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col"></div>
+                <div id="infobox" class="col-8">
+                    <div id="infoup" class="row">
+                        <div id="info1" class="col-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">이름</th>
+                                        <th scope="col">OOO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">MBTI</th>
+                                        <td>mbti</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">취미</th>
+                                        <td>취미</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="info2" class="col-5">
+                            <ul class=" list-group">
+                                <p>자기소개</p>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">수정</button>
+                            <button id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
+                        </div>
+                    </div>
+                    <div id="infodown" class="row">
+                        <div id="info3" class="col-8">
+                            <ul class=" list-group">
+                                <p id="strengths">장점</p>
+                                <p id="collaborationStyle">협업 스타일</p>
+                                <p id="resolution">각오</p>
+                                <!--<li class="list-group-item">협업 스타일</li>
+                                <li class="list-group-item">각오</li>-->
+                            </ul>
+                        </div>
+                        <div class="col-2">
+                            <div class="btn-group-vertical" role="group"
+                                aria-label="Vertical radio toggle button group">
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1"
+                                    autocomplete="off" checked>
+                                <label id="strengthsBtn" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
+                                    autocomplete="off">
+                                <label  id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
+                                    autocomplete="off">
+                                <label id="collaborationStyleBtn"  class="btn btn-outline-danger" for="vbtn-radio3">협업스타일</label>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
 </body>
 
 </html>
