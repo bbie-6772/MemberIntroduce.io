@@ -7,9 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>방명록 만들기</title>
 
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="{{ 'assets/styles.css' | relative_url }}">
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -135,7 +133,7 @@
 
   <body>
     <div class="big_box">
-      <h1 style="color: #88d633">대단히 엄청난 방명록</h1>
+      <h1>대단히 엄청난 방명록</h1>
       <div class="main_box">
         <div class="sub_box">
           <textarea
