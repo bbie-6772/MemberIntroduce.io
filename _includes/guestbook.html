@@ -120,28 +120,45 @@
     </style>
 
     <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+
+      // Firebase 구성 정보 설정
+      const firebaseConfig = {
+        apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
+        authDomain: "sparta-1aa54.firebaseapp.com",
+        projectId: "sparta-1aa54",
+        storageBucket: "sparta-1aa54.appspot.com",
+        messagingSenderId: "210610766907",
+        appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
+        measurementId: "G-8ETLMBCMF2",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const storage = getStorage(app);
 
       const Comment = document.querySelector("#cm_box");
       const name_point = document.querySelector("#ip_name");
 
-      $(document).on("click", "button[name='delete']", function () {
-        $(this).parent().remove();
-      });
+      let docs = await getDocs(collection(db, "Comments"));
+        docs.forEach((doc) => {
+          let row = doc.data();
+          let name = row['Nickname'];
+          let text = row['Comment'];
+          let Date = row['Date'];
 
-      $("#btn").click(async function () {
-        $("#ip_name").prev().empty();
-
-        let name = document.getElementById("ip_name").value;
-        let text = document.getElementById("ip_text").value;
-        let today = new Date().toLocaleDateString();
-
-        if (!name) {
-          const span = document.createElement("span");
-          span.style.color = "#f26650";
-          span.textContent = "닉네임을 입력해 주세요!";
-
-          name_point.before(span);
-        } else if (text.length > 0) {
           const li = document.createElement("li");
           const div = document.createElement("div");
           const span = document.createElement("span");
@@ -167,7 +184,7 @@
           h3.style.color =
             "#" + parseInt(Math.random() * 0xffffff).toString(16);
 
-          date.textContent = today;
+          date.textContent = Date;
           date.style.color = "#2d7acc";
 
           btn_del.type = "button";
@@ -183,7 +200,43 @@
           li.append(btn_del);
           Comment.prepend(li);
 
+
+
+
+
+      $(document).on("click", "button[name='delete']", function () {
+        $(this).parent().remove();
+      });
+
+      $("#btn").click(async function () {
+        $("#ip_name").prev().empty();
+
+        let name = document.getElementById("ip_name").value;
+        let text = document.getElementById("ip_text").value;
+        let today = new Date().toLocaleDateString();
+
+        if (!name) {
+          const span = document.createElement("span");
+          span.style.color = "#f26650";
+          span.textContent = "닉네임을 입력해 주세요!";
+
+          name_point.before(span);
+        } else if (text.length > 0) {
+
+          const doc = {
+            Nickname: name,
+            Comment: text,
+            Date: today,
+          };
+
+          await addDoc(collection(db, "Comments"), doc)
+          .then(() =>
+          alert('방명록이 성공적으로 추가되었습니다!')
+          );
+
           document.querySelector("#ip_text").value = "";
+          window.location.href = 'index.html';
+
         }
       });
     </script>
