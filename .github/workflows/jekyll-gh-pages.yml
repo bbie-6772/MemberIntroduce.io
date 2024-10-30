@@ -24,7 +24,7 @@ concurrency:
 jobs:
   # Build job
   build:
-    runs-on: Window
+    runs-on: Windows
     steps:
       - name: Checkout
         uses: actions/checkout@v4
