@@ -30,9 +30,7 @@
             box-shadow: 0px 0px 30px 0px rgb(88, 163, 128);
         }
 
-        #popup {
-
-        }
+        #popup {}
 
         #imgsbox {
 
@@ -98,14 +96,15 @@
             text-align: left;
         }
 
-        #reviseben {
-            width: 80px;
+        #reviseBen {
+            width: 90px;
             margin: 10px;
             padding: 3px;
         }
 
         #deleteBtn {
 
+            width: 90px;
             margin: 10px;
             padding: 3px;
         }
@@ -122,7 +121,9 @@
     <script type="module">
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs,deleteDoc, doc  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        //        import { getFirestore, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js";
+        //
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
 
 
@@ -142,53 +143,166 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-
+        // 하나만 가져오도록 수정필요
         let docs = await getDocs(collection(db, "members"));
         docs.forEach((doc) => {
             let row = doc.data();
-            let imageUrl = row['imageUrl'];
+            let imageUrl = row['imageUrl'];//
             let name = row['name'];
             let mbti = row['mbti'];
             let hobby = row['hobby'];
+            let introduction = row['introduction'];
             let strengths = row['strengths'];
             let collaborationStyle = row['collaborationStyle'];
             let resolution = row['resolution'];
             let blogLink = row['blogLink'];
+            let gitLink = row['gitLink'];
 
-            let temp_html = `  `
+            let temp_html = ` 
+            <div class="row">
+                <div id="imgsbox" class="col-3">
+                    <div class="imgcard">
+                        <img id="${myimage}" src="" class="card-img-top" alt="...">
+                        <div>
+                            <div class="row">
+                                <!--Git버튼-->
+                                <button id="gitBtn" type="button" class="col btn btn-outline-success">
+                                    <a href="${gitLink}" target="_blank" rel="noopener noreferrer">
+                                        <img id="link_img"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
+                                            class="card-img-top" alt="...">
+                                    </a>
+                                </button>
+                                <!--블로그버튼-->
+                                <button id="blBtn" type="button" class="col btn btn-outline-success">
+                                    <a href="${blogLink}" target="_blank" rel="noopener noreferrer">
+                                        <img id="link_img"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
+                                            class="card-img-top" alt="...">
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col"></div>
+                <div id="infobox" class="col-8">
+                    <div id="infoup" class="row">
+                        <div id="info1" class="col-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>                                      
+                                        <th scope="col">이름</th>
+                                        <th scope="col">${name}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">MBTI</th>
+                                        <td>${mbti}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">취미</th>
+                                        <td>${hobby}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="info2" class="col-5">
+                            <ul class=" list-group">
+                                <p>${introduction}</p>
+                                                            </ul>
+                        </div>
+                        <div class="col">
+                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">
+    <a href="/.addcard.html" class="text-muted">수정</a>
+</button>
+
+                            <!--
+                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">
+            <a class="p-2 text-muted" href="/._includes\addcard.html">수정</a></button>-->
+                            <button id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
+                        </div>
+                    </div>                
+                    <div id="infodown" class="row">
+                        <div id="info3" class="col-8">
+                            <ul class=" list-group">
+                                <p id="strengths">${strengths}</p>
+                                <p id="collaborationStyle">${collaborationStyle}</p>
+                                <p id="resolution">${resolution}</p>
+                            </ul>
+                        </div>
+                        <div class="col-2">
+                            <div class="btn-group-vertical" role="group"
+                                aria-label="Vertical radio toggle button group">
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1"
+                                    autocomplete="off" checked>
+                                <label id="strengthsBtn" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
+                                    autocomplete="off">
+                                <label id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
+                                    autocomplete="off">
+                                <label id="collaborationStyleBtn" class="btn btn-outline-danger"
+                                    for="vbtn-radio3">협업스타일</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> `
             console.log('된다')
             let cardElement = $(temp_html).insertBefore('#popup');
-            $("#strengths").show
-    $("#collaborationStyle").hide
-    $("#resolution").hide
+            $("#strengths").show()
+            $("#collaborationStyle").hide()
+            $("#resolution").hide()
         })
-// 텍스트 -> 버튼으로 토글 사용하기
-$("#strengthsBtn").click(function () { // 장점
-    $("#strengths").show
-    $("#collaborationStyle").hide
-    $("#resolution").hide
+
+        // 수정화면으로 이동
+        $("#reviseBen").click(function () {
+            alert('수정화면으로 이동')
+
+        })
+
+        // 파이어베이스에서 해당 자료 삭제
+$("#deleteBtn").click(async function (e) {
+    e.preventDefault();
+    //if (name === `${name}`) {
+        //if (confirm("정말 삭제 하시겠습니까?")) {
+        //const docRef = doc(db, 'members', `${name}`);
+        //await deleteDoc(docRef);
+        alert('삭제되었습니다.');
+        //    window.location.href = './membercard.html';
+        //} else {
+        //    return false;
+        
+    //}
+});
+
+
+
+
+
+
+
+        // 텍스트 -> 버튼으로 토글 사용하기
+        $("#strengthsBtn").click(function () { // 장점
+            $("#strengths").show()
+            $("#collaborationStyle").hide()
+            $("#resolution").hide()
         });
-       
+
         $("#collaborationStyleBtn").click(function () { //협업스타일
-            $("#strengths").hide
-    $("#collaborationStyle").show
-    $("#resolution").hide
+            $("#strengths").hide()
+            $("#collaborationStyle").show()
+            $("#resolution").hide()
         });
         $("#resolutionBtn").click(function () { //각오
-            $("#strengths").hide
-    $("#collaborationStyle").hide
-    $("#resolution").show
+            $("#strengths").hide()
+            $("#collaborationStyle").hide()
+            $("#resolution").show()
         });
-        /*
-        $("#hide_btn").click(function() {
-    $("#panel").hide(500);
-});
-$("#show_btn").click(function() {
-    $("#panel").show(1000);
-});*/
 
-                          
-                            
+
 
     </script>
 </head>
@@ -208,20 +322,20 @@ $("#show_btn").click(function() {
                                 <!--Git버튼-->
                                 <button id="gitBtn" type="button" class="col btn btn-outline-success">
                                     <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
-                                    <img id="link_img"
-                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
-                                        class="card-img-top" alt="...">
+                                        <img id="link_img"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
+                                            class="card-img-top" alt="...">
                                     </a>
                                 </button>
                                 <!--블로그버튼-->
                                 <button id="blBtn" type="button" class="col btn btn-outline-success">
                                     <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
-                                    <img id="link_img"
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
-                                        class="card-img-top" alt="...">
+                                        <img id="link_img"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
+                                            class="card-img-top" alt="...">
                                     </a>
 
-                                    </button>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -234,7 +348,7 @@ $("#show_btn").click(function() {
                                 <thead>
                                     <tr>
                                         <th scope="col">이름</th>
-                                        <th scope="col">OOO</th>
+                                        <th scope="col">셈플</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -277,17 +391,17 @@ $("#show_btn").click(function() {
                                 <label id="strengthsBtn" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
                                 <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
                                     autocomplete="off">
-                                <label  id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
+                                <label id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
                                 <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
                                     autocomplete="off">
-                                <label id="collaborationStyleBtn"  class="btn btn-outline-danger" for="vbtn-radio3">협업스타일</label>
-                            </div>                            
+                                <label id="collaborationStyleBtn" class="btn btn-outline-danger"
+                                    for="vbtn-radio3">협업스타일</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 </body>
