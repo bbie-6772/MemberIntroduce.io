@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module">
+        $("#editbtn").click(async function () {
+            var passward = prompt("비밀번호를 입력해주세요", "");
+            if (passward == 1234) {
+                $('#cardlist').toggle();
+                exit.innerText = '편집종료'
+                exit.addEventListener("click", function () {
+                    if (exit.innerText === '편집모드') {
+                        exit.innerText = '편집종료';
+                    } else exit.innerText = '편집모드';
+                });
+            } 
+            else exit.innerText = '편집모드';
+
+        })
+        const exit = document.getElementById('editbtn')
+
+    </script>
+
+
+
+</head>
+
+
+<body>
+    <button id="editbtn" class="btn1" type="button">편집모드</button>
+    <div id="addcard"></div>
+    <div class="allcard">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="postingbtng" id="cardlist" style="display: none">
+                <button id="plsbt" type="button" class="plsbt">추가하기</button>
+            </div>
+
+        </div>
+</body>
+
+</html>
