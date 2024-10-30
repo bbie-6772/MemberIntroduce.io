@@ -7,22 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>방명록 만들기</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/styles.css">
-
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        getDocs,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import {
-        getStorage,
-        ref,
-        uploadBytes,
-        getDownloadURL,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+      import { getFirestore, collection, addDoc, getDocs} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import { getStorage, ref, uploadBytes, getDownloadURL} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
 
       // Firebase 구성 정보 설정
       const firebaseConfig = {
@@ -37,7 +25,6 @@
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
-      const storage = getStorage(app);
 
       const Comment = document.querySelector("#cm_box");
       const name_point = document.querySelector("#ip_name");
