@@ -16,6 +16,7 @@
     <script type="module">
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
 
@@ -45,16 +46,19 @@
             const name = $('#name').val();
             const mbti = $('#mbti').val();
             const blogLink = $('#blogLink').val();
+
             const hobby = $('#hobby').val();
             const introduction = $('#introduction').val();
             const strengths = $('#strengths').val();
             const collaborationStyle = $('#collaborationStyle').val();
             const resolution = $('#resolution').val();
+
             const imageFile = $('#imageUpload')[0].files[0];
 
 
             // 입력 값 검증
             if (!name || !mbti || !blogLink || !hobby || !introduction || !strengths || !collaborationStyle || !resolution || !imageFile) {
+
                 alert('모든 항목을 입력해 주세요.');
                 return;
             }
@@ -85,10 +89,12 @@
                 alert('멤버 카드가 성공적으로 추가되었습니다!');
                 window.location.href = 'index.html';
 
+
             } catch (e) {
                 console.error('에러발생!: ', e);
                 alert('오류가 발생했습니다. 다시 시도해 주세요.');
             }
+<
         });
 
         // 이미지 미리보기 기능 추가
@@ -145,6 +151,7 @@
     </header>
 
     <!-- 이름 / mbti / 취미 / 자기소개 / 장점 / 협업 스타일 / 각오 -->
+
     <div class="container mt-5 mb-5 px-5">
         <h2 class="mb-4">멤버 카드 추가하기</h2>
         <form id="memberForm">
@@ -224,7 +231,6 @@
 
         </form>
     </div>
-
 
 </body>
 
