@@ -1,0 +1,6 @@
+title: 멤버 소개 페이지
+description: 부트 캠프 교육 과정 팀업 프로젝트
+
+sass:
+  sass_dir: _sass
+  style: :compressed
