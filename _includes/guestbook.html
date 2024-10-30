@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>방명록 만들기</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+
+      * {
+        font-family: "Jua", sans-serif;
+      }
+
+      ul {
+        padding: 0px;
+        margin: 0px;
+        list-style-type: none;
+      }
+
+      .big_box {
+        padding: 0px 20px 30px 20px;
+        margin: 5% 0px 5% 0px;
+
+        border: 1px solid #2d7acc;
+        border-radius: 5px;
+      }
+
+      .main_box {
+        height: 250px;
+        margin: auto;
+        padding: 5px;
+
+        display: flex;
+        justify-content: center;
+
+        border-bottom: 2px solid gray;
+      }
+
+      .sub_box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        padding: 20px;
+      }
+
+      .sub_box2 {
+        margin-left: auto;
+        margin-right: 5%;
+      }
+
+      .text_box {
+        width: 85vw;
+        height: 200px;
+        margin: 10px 0px 0px 0px;
+        resize: none;
+
+        border: 1px solid gray;
+        border-radius: 3px;
+        background-color: whitesmoke;
+
+        font-size: large;
+      }
+
+      .text_box:focus {
+        outline: 2px solid #2d7acc;
+      }
+
+      .name_box {
+        width: 70px;
+        height: 30px;
+        margin: 10px 0px 0px 0px;
+        resize: none;
+
+        border: 1px solid gray;
+        border-radius: 10px;
+        background-color: whitesmoke;
+
+        font-size: large;
+        text-align: center;
+      }
+
+      .name_box:focus {
+        outline: 2px solid #2d7acc;
+        text-align: start;
+      }
+
+      .btn1 {
+        width: 60px;
+        height: 30px;
+
+        border: 1px solid gray;
+        background-color: #2d7acc;
+        border-radius: 3px;
+        color: aliceblue;
+        font-size: large;
+      }
+
+      .btn1:hover {
+        background-color: #073669;
+        transition: 0.7s;
+      }
+
+      .btn1:active {
+        background-color: #88d633;
+        transition: 0.01s;
+      }
+
+      [name="delete"] {
+        border: 1px solid gray;
+        background-color: #eb553b;
+        border-radius: 3px;
+        color: aliceblue;
+        font-size: large;
+      }
+    </style>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+
+      // Firebase 구성 정보 설정
+      const firebaseConfig = {
+        apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
+        authDomain: "sparta-1aa54.firebaseapp.com",
+        projectId: "sparta-1aa54",
+        storageBucket: "sparta-1aa54.appspot.com",
+        messagingSenderId: "210610766907",
+        appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
+        measurementId: "G-8ETLMBCMF2",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const storage = getStorage(app);
+
+      const Comment = document.querySelector("#cm_box");
+      const name_point = document.querySelector("#ip_name");
+
+      let docs = await getDocs(collection(db, "Comments"));
+        docs.forEach((doc) => {
+          let row = doc.data();
+          let name = row['Nickname'];
+          let text = row['Comment'];
+          let Date = row['Date'];
+          let Color = row['Color'];
+
+          const li = document.createElement("li");
+          const div = document.createElement("div");
+          const span = document.createElement("span");
+          const btn_del = document.createElement("button");
+          const h3 = document.createElement("h3");
+          const date = document.createElement("span");
+
+          li.style.border = "1px solid gray";
+          li.style.borderRadius = "5px";
+          li.style.width = "80vw";
+          li.style.margin = "20px auto 20px auto";
+          li.style.padding = "20px";
+          li.style.textAlign = "left";
+          li.style.overflow = "auto";
+          li.style.backgroundColor = "whitesmoke";
+
+          div.style.display = "flex";
+          div.style.justifyContent = "space-between";
+          div.style.alignItems = "center";
+
+          span.innerText = text;
+          h3.textContent = name;
+          h3.style.color = color;
+
+          date.textContent = Date;
+          date.style.color = "#2d7acc";
+
+          btn_del.type = "button";
+          btn_del.name = "delete";
+          btn_del.style.float = "right";
+          btn_del.className = "btn btn-danger btn-sm";
+          btn_del.textContent = "삭제";
+
+          div.append(h3);
+          div.append(date);
+          li.append(div);
+          li.append(span);
+          li.append(btn_del);
+          Comment.prepend(li);
+      });
+
+      $(document).on("click", "button[name='delete']", function () {
+        $(this).parent().remove();
+      });
+
+      $("#btn").click(async function () {
+        $("#ip_name").prev().empty();
+
+        let name = document.getElementById("ip_name").value;
+        let text = document.getElementById("ip_text").value;
+        let today = new Date().toLocaleDateString();
+        let color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
+
+        if (!name) {
+          const span = document.createElement("span");
+          span.style.color = "#f26650";
+          span.textContent = "닉네임을 입력해 주세요!";
+
+          name_point.before(span);
+        } else if (text.length > 0) {
+
+          const doc = {
+            Nickname: name,
+            Comment: text,
+            Date: today,
+            Color: color
+          };
+
+          await addDoc(collection(db, "Comments"), doc)
+          .then(() =>
+          alert('방명록이 성공적으로 추가되었습니다!')
+          );
+
+          document.querySelector("#ip_text").value = "";
+          window.location.href = 'index.html';
+
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="big_box">
+      <h1 style="color: #88d633">대단히 엄청난 방명록</h1>
+      <div class="main_box">
+        <div class="sub_box">
+          <textarea
+            id="ip_text"
+            cols="30"
+            rows="5"
+            class="text_box"
+            placeholder="남기고 싶은 이야기가 있나요?"
+            aria-label="남기고 싶은 이야기가 있나요?"
+          ></textarea>
+          <div class="sub_box2">
+            <input
+              id="ip_name"
+              type="text"
+              class="name_box"
+              placeholder="닉네임"
+              aria-label="닉네임"
+            />
+            <button onclick="" class="btn1" type="button" id="btn">작성</button>
+          </div>
+        </div>
+      </div>
+      <ul class="op_box" id="cm_box"></ul>
+    </div>
+  </body>
+</html>

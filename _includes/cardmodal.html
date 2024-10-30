@@ -61,13 +61,13 @@
             height: 100px;
         }
 
-        #gitbtn {
+        #gitBtn {
 
             margin: 10px 10px 0px 10px;
             padding: 1px;
         }
 
-        #blbtn {
+        #blBtn {
 
             margin: 10px 10px 0px 10px;
             padding: 1px;
@@ -103,7 +103,7 @@
             padding: 3px;
         }
 
-        #deletebtn {
+        #deleteBtn {
 
             margin: 10px;
             padding: 3px;
@@ -157,10 +157,38 @@
             let temp_html = `  `
             console.log('된다')
             let cardElement = $(temp_html).insertBefore('#popup');
+            $("#strengths").show
+    $("#collaborationStyle").hide
+    $("#resolution").hide
         })
+// 텍스트 -> 버튼으로 토글 사용하기
+$("#strengthsBtn").click(function () { // 장점
+    $("#strengths").show
+    $("#collaborationStyle").hide
+    $("#resolution").hide
+        });
+       
+        $("#collaborationStyleBtn").click(function () { //협업스타일
+            $("#strengths").hide
+    $("#collaborationStyle").show
+    $("#resolution").hide
+        });
+        $("#resolutionBtn").click(function () { //각오
+            $("#strengths").hide
+    $("#collaborationStyle").hide
+    $("#resolution").show
+        });
+        /*
+        $("#hide_btn").click(function() {
+    $("#panel").hide(500);
+});
+$("#show_btn").click(function() {
+    $("#panel").show(1000);
+});*/
 
+                          
+                            
 
-  
     </script>
 </head>
 
@@ -177,7 +205,7 @@
                         <div>
                             <div class="row">
                                 <!--Git버튼-->
-                                <button id="gitbtn" type="button" class="col btn btn-outline-success">
+                                <button id="gitBtn" type="button" class="col btn btn-outline-success">
                                     <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
                                     <img id="link_img"
                                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
@@ -185,7 +213,7 @@
                                     </a>
                                 </button>
                                 <!--블로그버튼-->
-                                <button id="blbtn" type="button" class="col btn btn-outline-success">
+                                <button id="blBtn" type="button" class="col btn btn-outline-success">
                                     <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
                                     <img id="link_img"
                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
@@ -226,14 +254,16 @@
                             </ul>
                         </div>
                         <div class="col">
-                            <button id="reviseben" type="button" class="btn btn-outline-secondary">수정</button>
-                            <button id="deletebtn" type="button" class="btn btn-outline-secondary">삭제</button>
+                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">수정</button>
+                            <button id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
                         </div>
                     </div>
                     <div id="infodown" class="row">
                         <div id="info3" class="col-8">
                             <ul class=" list-group">
-                                <p>장점</p>
+                                <p id="strengths">장점</p>
+                                <p id="collaborationStyle">협업 스타일</p>
+                                <p id="resolution">각오</p>
                                 <!--<li class="list-group-item">협업 스타일</li>
                                 <li class="list-group-item">각오</li>-->
                             </ul>
@@ -243,25 +273,19 @@
                                 aria-label="Vertical radio toggle button group">
                                 <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1"
                                     autocomplete="off" checked>
-                                <label class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
+                                <label id="strengthsBtn" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
                                 <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
                                     autocomplete="off">
-                                <label class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
+                                <label  id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
                                 <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
                                     autocomplete="off">
-                                <label class="btn btn-outline-danger" for="vbtn-radio3">스타일</label>
-                            </div>
+                                <label id="collaborationStyleBtn"  class="btn btn-outline-danger" for="vbtn-radio3">협업스타일</label>
+                            </div>                            
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
-    </div>
-    </div>
-    </div>
     </div>
     </div>
 </body>
