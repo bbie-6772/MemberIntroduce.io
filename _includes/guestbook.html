@@ -158,6 +158,7 @@
           let name = row['Nickname'];
           let text = row['Comment'];
           let Date = row['Date'];
+          let Color = row['Color'];
 
           const li = document.createElement("li");
           const div = document.createElement("div");
@@ -181,8 +182,7 @@
 
           span.innerText = text;
           h3.textContent = name;
-          h3.style.color =
-            "#" + parseInt(Math.random() * 0xffffff).toString(16);
+          h3.style.color = color;
 
           date.textContent = Date;
           date.style.color = "#2d7acc";
@@ -199,10 +199,7 @@
           li.append(span);
           li.append(btn_del);
           Comment.prepend(li);
-
-
-
-
+      });
 
       $(document).on("click", "button[name='delete']", function () {
         $(this).parent().remove();
@@ -214,6 +211,7 @@
         let name = document.getElementById("ip_name").value;
         let text = document.getElementById("ip_text").value;
         let today = new Date().toLocaleDateString();
+        let color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
 
         if (!name) {
           const span = document.createElement("span");
@@ -227,6 +225,7 @@
             Nickname: name,
             Comment: text,
             Date: today,
+            Color: color
           };
 
           await addDoc(collection(db, "Comments"), doc)
