@@ -40,16 +40,14 @@ $('#editbtn').click(async function () {
         window.location.reload();
         window.location.href = 'index.html';
     }   
-    // const editMode = sessionStorage.getItem('editMode')
-// toggle 기능이 한번만 동작하도록 
-// let editHidden = false;
-
-// // 관리자 모드 일 시 댓글삭제 버튼이 보이도록
-// if (editMode !== 'true' && editHidden === false) {
-//     $('#plsbtn').toggle();
-// }else if (editMode === 'true' && editHidden === true) {
-//     $('#plsbtn').toggle();
-//     editHidden = false;
-// } 
-
 });
+
+
+let editHidden = false;
+
+if (editMode !== 'true' && editHidden === false) {
+    $("#plsbtn").toggle();
+}else if (editMode === 'true' && editHidden === true) {
+    $("#plsbtn").toggle();
+    editHidden = false;
+} 
