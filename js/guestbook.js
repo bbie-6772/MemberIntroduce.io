@@ -13,6 +13,7 @@ import {
 //댓글 넣을 자리 가져오기
 const Comment = document.querySelector('#cmBox');
 const name_point = document.querySelector('#ipName');
+const editMode = sessionStorage.getItem('editMode')
 
 // comments 라이브러리의 값 가져오기
 let docs = await getDocs(
@@ -85,7 +86,6 @@ $(document).on("click", "button[name='delete']", async function () {
     // 비밀번호 값이 비어있을 경우 프리패스
 
 
-
     checkDocs.forEach((docRef) => {
         // 데이터 조리해서 가져오기
         let row = docRef.data();
@@ -98,8 +98,10 @@ $(document).on("click", "button[name='delete']", async function () {
         if (name === nameCheck && date === dateCheck) {
 
             // 비밀번호 비어있는지 확인
-            if (pswdCheck !== "" && pswdCheck !== undefined) {
+            if (pswdCheck !== "" && pswdCheck !== undefined && editMode !== 'true') {
+
                 let key = prompt('비밀번호를 입력해주세요.', '')
+
 
                 if (pswdCheck === key) {
                     alert('비밀번호 일치')
