@@ -19,6 +19,7 @@ $('#editbtn').click(async function () {
         if (!querySnapshot.empty) {
             const doc = querySnapshot.docs[0];
             const data = doc.data();
+            
 
             if (data.key === key) {
                 alert('관리자로 확인이 되었습니다.');
@@ -26,6 +27,7 @@ $('#editbtn').click(async function () {
 
                 // 세션에 로그인 상태 저장
                 sessionStorage.setItem('editMode', 'true');
+                
             } else {
                 alert('잘못된 접근 입니다.');
             }
@@ -35,5 +37,16 @@ $('#editbtn').click(async function () {
     } else {
         sessionStorage.clear();
         window.location.reload();
-    }
+        window.location.href = 'index.html';
+    }   
 });
+
+
+let editHidden = false;
+
+if (editMode !== 'true' && editHidden === false) {
+    $("#plsbtn").toggle();
+}else if (editMode === 'true' && editHidden === true) {
+    $("#plsbtn").toggle();
+    editHidden = false;
+} 

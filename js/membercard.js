@@ -72,3 +72,4 @@ $(document).ready(function () {
         $scrollContainer.scrollLeft(scrollLeft - walk);
     });
 });
+
