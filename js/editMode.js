@@ -27,7 +27,7 @@ $('#editbtn').click(async function () {
 
                 // 세션에 로그인 상태 저장
                 sessionStorage.setItem('editMode', 'true');
-                
+
             } else {
                 alert('잘못된 접근 입니다.');
             }
@@ -49,4 +49,4 @@ if (editMode !== 'true' && editHidden === false) {
 }else if (editMode === 'true' && editHidden === true) {
     $("#plsbtn").toggle();
     editHidden = false;
-} 
+}

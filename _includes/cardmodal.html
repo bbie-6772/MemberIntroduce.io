@@ -1,73 +1,173 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>member_card</title>
+    <title>Document</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-
     <style>
         body {
-            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
         }
 
-        #bg {
-            background-color: rgb(108, 209, 162, 0.767);
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px;
+        }
+
+        .myteamcard {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .myteamcard.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .myteamcard:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .myteamcard img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .plsbt {
+            height: auto;
+            max-width: 300px;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            display: none;
+            background-color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.6s ease, transform 0.3s ease;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .plsbt img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .plsbt.show {
+            display: block;
+        }
+
+        .plsbt:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <style>
+        /*이 밑은 카드 누르면 나오는 팝업창이므로 바꾸기.*/
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .popup-content {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+            background-color: rgb(108, 209, 162);
             width: 1000px;
             height: 600px;
-            border-radius: 30px;
-
-            padding: 5px;
-            margin: 30px;
-
+            /* margin: 30px; */
             box-shadow: 0px 0px 30px 0px rgb(88, 163, 128);
         }
 
-        #popup {}
+        .close-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
         #imgsbox {
-
             padding: 5px;
             margin-right: 15px;
             border-radius: 30px;
         }
 
         #infobox {
-
             padding: 5px;
             margin-left: 30px;
             border-radius: 30px;
             background-color: white;
         }
 
-        #myimage {
+        #memberImg {
             width: 300px;
             height: 400px;
-
-
         }
 
         #link_img {
             width: 100px;
-            ;
             height: 100px;
         }
 
-        #gitBtn {
-
-            margin: 10px 10px 0px 10px;
-            padding: 1px;
-        }
-
         #blBtn {
-
             margin: 10px 10px 0px 10px;
             padding: 1px;
         }
@@ -79,7 +179,6 @@
         }
 
         #infodown {
-
             margin: 10px 10px 0px 5px;
             border-radius: 10px;
             height: 300px;
@@ -96,14 +195,13 @@
             text-align: left;
         }
 
-        #reviseBen {
+        #reviseBtn {
             width: 90px;
             margin: 10px;
             padding: 3px;
         }
 
         #deleteBtn {
-
             width: 90px;
             margin: 10px;
             padding: 3px;
@@ -117,292 +215,297 @@
         }
     </style>
 
-
     <script type="module">
-        // Firebase SDK 라이브러리 가져오기
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs,deleteDoc, doc  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        //        import { getFirestore, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.x/firebase-firestore.js";
-        //
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+//---- Firebase 설정
+// Firebase SDK 라이브러리 가져오기
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+
+import {
+    collection,
+    addDoc,
+    getDocs,
+    getFirestore,
+    setDoc,
+    doc,
+    deleteDoc,
+    orderBy,
+    query,
+} from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+} from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js';
+
+// Firebase 구성 정보 설정
+const firebaseConfig = {
+    apiKey: 'AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4',
+    authDomain: 'sparta-1aa54.firebaseapp.com',
+    projectId: 'sparta-1aa54',
+    storageBucket: 'sparta-1aa54.appspot.com',
+    messagingSenderId: '210610766907',
+    appId: '1:210610766907:web:f3553a0bb7e166be9c081e',
+    measurementId: 'G-8ETLMBCMF2',
+};
+
+// Firebase 인스턴스 초기화
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+export {
+    collection,
+    addDoc,
+    getDocs,
+    getFirestore,
+    setDoc,
+    doc,
+    deleteDoc,
+    orderBy,
+    query, 
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+};
 
 
-        // Firebase 구성 정보 설정
-        const firebaseConfig = {
-            apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
-            authDomain: "sparta-1aa54.firebaseapp.com",
-            projectId: "sparta-1aa54",
-            storageBucket: "sparta-1aa54.appspot.com",
-            messagingSenderId: "210610766907",
-            appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
-            measurementId: "G-8ETLMBCMF2"
-        };
+        async function loadCards() {
+            const cardContainer = document.getElementById('cardlist');
+            const docs = await getDocs(collection(db, "members"));
+            const totalCards = docs.size;
 
-        // Firebase 인스턴스 초기화
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+            let loadedImages = 0;
 
-        // 하나만 가져오도록 수정필요
-        let docs = await getDocs(collection(db, "members"));
-        docs.forEach((doc) => {
-            let row = doc.data();
-            let imageUrl = row['imageUrl'];//
-            let name = row['name'];
-            let mbti = row['mbti'];
-            let hobby = row['hobby'];
-            let introduction = row['introduction'];
-            let strengths = row['strengths'];
-            let collaborationStyle = row['collaborationStyle'];
-            let resolution = row['resolution'];
-            let blogLink = row['blogLink'];
-            let gitLink = row['gitLink'];
+            if (totalCards === 0) {
+                document.getElementById('plsbtn').classList.add('show');
+            } else {
+                docs.forEach((doc) => {
+                    const data = doc.data();
 
-            let temp_html = ` 
-            <div class="row">
-                <div id="imgsbox" class="col-3">
-                    <div class="imgcard">
-                        <img id="${myimage}" src="" class="card-img-top" alt="...">
-                        <div>
-                            <div class="row">
-                                <!--Git버튼-->
-                                <button id="gitBtn" type="button" class="col btn btn-outline-success">
-                                    <a href="${gitLink}" target="_blank" rel="noopener noreferrer">
-                                        <img id="link_img"
-                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
-                                            class="card-img-top" alt="...">
-                                    </a>
-                                </button>
-                                <!--블로그버튼-->
-                                <button id="blBtn" type="button" class="col btn btn-outline-success">
-                                    <a href="${blogLink}" target="_blank" rel="noopener noreferrer">
-                                        <img id="link_img"
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
-                                            class="card-img-top" alt="...">
-                                    </a>
-                                </button>
+                    const tempHtml = `
+<div class="myteamcard">
+    <img src="${data.imageUrl}" alt="이미지">
+    <div class="card-content">
+        <h3 class="card-title">${data.name}</h3>
+        <p class="card-description">${data.introduction}</p>
+    </div>
+</div>`;
+                    const cardElement = $(tempHtml).insertBefore('#plsbtn');
+
+                    cardElement.find('img').on('load', function () {
+                        loadedImages++;
+                        cardElement.addClass('show');
+
+                        if (loadedImages === totalCards) {
+                            $('#plsbtn').addClass('show');
+                        }
+                    });
+
+                    // popup
+
+
+
+                    // 팝업 // 클릭 이벤트 핸들러 추가
+                    cardElement.click(function () {
+                        // $('#popup-name').text(name);  // 클릭한 카드의 이름을 팝업에 설정
+
+                        let temp_pop = `
+                    <div id="removePop">
+                        <div class="row">
+                            <div id="imgsbox" class="col-3">
+                                <div class="imgcard">
+                                    <img id="memberImg" src="${data.imageUrl}" class="card-img-top" alt="...">
+                                    <div>
+                                        <div class="row">
+
+                                            <!--블로그버튼-->
+                                            <button id="blBtn" type="button" class="col btn btn-outline-success">
+                                                <a href="${data.blogLink}" target="_blank" rel="noopener noreferrer">
+                                                    <img id="link_img"
+                                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
+                                                        class="card-img-top" alt="...">
+                                                </a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                            <div id="infobox" class="col-8">
+                                <div id="infoup" class="row">
+                                    <div id="info1" class="col-3">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">이름</th>
+                                                    <th scope="col">${data.name}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">MBTI</th>
+                                                    <td>${data.mbti}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">취미</th>
+                                                    <td>${data.hobby}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="info2" class="col-5">
+                                        <ul class=" list-group">
+                                            <p>${data.introduction}</p>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick='reviseBtn()' id="reviseBtn" type="button" class="btn btn-outline-secondary">수정</button>
+<!--
+    <button onclick='deleteBtn("${data.name}")' id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
+-->
+<button id="deleteBtn" type="button" name="delete"  class="btn btn-outline-secondary">삭제</button>
+</div>
+                                </div>
+                                <div id="infodown" class="row">
+                                    <div id="info3" class="col-8">
+                                        <ul class=" list-group">
+                                            <p id="strengths" style="display: none;">${data.strengths}</p>
+                                            <p id="collaborationStyle" style="display: none;">${data.collaborationStyle}</p>
+                                            <p id="resolution" style="display: none;">${data.resolution}</p>
+                                        </ul>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
+                                                checked>
+                                            <label onclick="strengthsBtn()" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
+                                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                                            <label onclick="resolutionBtn()" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
+                                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                                            <label onclick="collaborationStyleBtn()" class="btn btn-outline-danger"
+                                                for="vbtn-radio3">협업스타일</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col"></div>
-                <div id="infobox" class="col-8">
-                    <div id="infoup" class="row">
-                        <div id="info1" class="col-3">
-                            <table class="table">
-                                <thead>
-                                    <tr>                                      
-                                        <th scope="col">이름</th>
-                                        <th scope="col">${name}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">MBTI</th>
-                                        <td>${mbti}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">취미</th>
-                                        <td>${hobby}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="info2" class="col-5">
-                            <ul class=" list-group">
-                                <p>${introduction}</p>
-                                                            </ul>
-                        </div>
-                        <div class="col">
-                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">
-    <a href="/.addcard.html" class="text-muted">수정</a>
-</button>
+                    </div>`
 
-                            <!--
-                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">
-            <a class="p-2 text-muted" href="/._includes\addcard.html">수정</a></button>-->
-                            <button id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
-                        </div>
-                    </div>                
-                    <div id="infodown" class="row">
-                        <div id="info3" class="col-8">
-                            <ul class=" list-group">
-                                <p id="strengths">${strengths}</p>
-                                <p id="collaborationStyle">${collaborationStyle}</p>
-                                <p id="resolution">${resolution}</p>
-                            </ul>
-                        </div>
-                        <div class="col-2">
-                            <div class="btn-group-vertical" role="group"
-                                aria-label="Vertical radio toggle button group">
-                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1"
-                                    autocomplete="off" checked>
-                                <label id="strengthsBtn" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
-                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
-                                    autocomplete="off">
-                                <label id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
-                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
-                                    autocomplete="off">
-                                <label id="collaborationStyleBtn" class="btn btn-outline-danger"
-                                    for="vbtn-radio3">협업스타일</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> `
-            console.log('된다')
-            let cardElement = $(temp_html).insertBefore('#popup');
-            $("#strengths").show()
-            $("#collaborationStyle").hide()
-            $("#resolution").hide()
-        })
 
-        // 수정화면으로 이동
-        $("#reviseBen").click(function () {
-            alert('수정화면으로 이동')
+                        // 전역 변수로 PopCardElement 선언
+                        let PopCardElement = $(temp_pop).insertBefore('#popup_content');
+                        $('#popup').css('display', 'flex');  // 팝업 열기
+                        $("#strengths").show();
+                        // $("#collaborationStyle").hide();
+                        // $("#resolution").hide();
+                        console.log('팝업 열림');
 
-        })
 
-        // 파이어베이스에서 해당 자료 삭제
-$("#deleteBtn").click(async function (e) {
-    e.preventDefault();
-    //if (name === `${name}`) {
-        //if (confirm("정말 삭제 하시겠습니까?")) {
-        //const docRef = doc(db, 'members', `${name}`);
-        //await deleteDoc(docRef);
-        alert('삭제되었습니다.');
-        //    window.location.href = './membercard.html';
-        //} else {
-        //    return false;
+                        $(document).on("click", "button[name='delete']", async function () {
+    try {
+        // Firestore에서 문서 삭제
+        const docRef = doc(db, "members", $(this).prev().prev().text());
+        await deleteDoc(docRef);
+        console.log("await deketeDoc")
+    
+        // 성공 메시지 및 DOM 요소 제거
+        alert("성공적으로 삭제되었습니다!");
+        $(this).parent().remove();
+        document.getElementById("removePop").remove();
         
-    //}
+        // 팝업 닫기
+        $("#popup").css("display", "none");
+        console.log('$("#popup").css("display", "none");');
+    } catch (error) {
+        console.log("문서 삭제 오류:", error);
+        alert("삭제 중 오류가 발생했습니다.");
+    }
 });
 
+                        window.reviseBtn = function () {
+                            window.location.href = 'addcard.html';
+                            console.log(name + '수정하기')
+                        }
+
+                        // 모듈 스크립트에서 전역 deleteBtn 함수 생성
+                        // 이름을 못가져옴.
+                    })
+                    /////////////////////////////
 
 
+                    // 장점
+                    window.strengthsBtn = function () {
+                        // 원하는 기능
+                        $("#strengths").show();
+                        $("#collaborationStyle").hide();
+                        $("#resolution").hide();
+                    };
+
+                    // 협업 스타일
+                    window.collaborationStyleBtn = function () {
+                        $("#strengths").hide();
+                        $("#collaborationStyle").show();
+                        $("#resolution").hide();
+                    };
+
+                    // 각오
+                    window.resolutionBtn = function () {
+
+                        $("#strengths").hide();
+                        $("#collaborationStyle").hide();
+                        $("#resolution").show();
+                    };
+
+                });
 
 
+                // 팝업 닫기 버튼 클릭 시 팝업을 닫습니다.        
+                $("#clbtn").click(function () {
+                    document.getElementById("removePop").remove();
+                    $("#popup").css("display", "none");console.log(' $("#popup").css("display", "none");')
+                })
+
+                // popup
+
+            };
+        }
 
 
-        // 텍스트 -> 버튼으로 토글 사용하기
-        $("#strengthsBtn").click(function () { // 장점
-            $("#strengths").show()
-            $("#collaborationStyle").hide()
-            $("#resolution").hide()
-        });
-
-        $("#collaborationStyleBtn").click(function () { //협업스타일
-            $("#strengths").hide()
-            $("#collaborationStyle").show()
-            $("#resolution").hide()
-        });
-        $("#resolutionBtn").click(function () { //각오
-            $("#strengths").hide()
-            $("#collaborationStyle").hide()
-            $("#resolution").show()
-        });
-
-
-
+        loadCards();
     </script>
+    <script>
+        $(document).ready(function () {
+            $("#plsbtn").click(function () {
+                window.location.href = 'addcard.html';
+            });
+        });
+    </script>
+
+
+
 </head>
 
 <body>
-    <div id="bg">
-        <div id="popup" class="container text-center">
-            <div class="row">
-                <div id="imgsbox" class="col-3">
-                    <div class="imgcard">
-                        <img id="myimage"
-                            src="data:image/jpeg;base64,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"
-                            class="card-img-top" alt="...">
+    <div class="card-container" id="cardlist">
+        <button id="plsbtn" type="button" class="plsbt"><img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMCyyoX0vaRyKKoMOpIYS0LA94ZYOKGJmHvd_8g-KJIbLX1XVImG79MgC04rNNm46jJk&usqp=CAU"
+                alt="이미지"></button>
+    </div>
 
-                        <div>
-                            <div class="row">
-                                <!--Git버튼-->
-                                <button id="gitBtn" type="button" class="col btn btn-outline-success">
-                                    <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
-                                        <img id="link_img"
-                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/330px-GitHub_Invertocat_Logo.svg.png"
-                                            class="card-img-top" alt="...">
-                                    </a>
-                                </button>
-                                <!--블로그버튼-->
-                                <button id="blBtn" type="button" class="col btn btn-outline-success">
-                                    <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">
-                                        <img id="link_img"
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
-                                            class="card-img-top" alt="...">
-                                    </a>
-
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col"></div>
-                <div id="infobox" class="col-8">
-                    <div id="infoup" class="row">
-                        <div id="info1" class="col-3">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">이름</th>
-                                        <th scope="col">셈플</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">MBTI</th>
-                                        <td>mbti</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">취미</th>
-                                        <td>취미</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="info2" class="col-5">
-                            <ul class=" list-group">
-                                <p>자기소개</p>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <button id="reviseBen" type="button" class="btn btn-outline-secondary">수정</button>
-                            <button id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
-                        </div>
-                    </div>
-                    <div id="infodown" class="row">
-                        <div id="info3" class="col-8">
-                            <ul class=" list-group">
-                                <p id="strengths">장점</p>
-                                <p id="collaborationStyle">협업 스타일</p>
-                                <p id="resolution">각오</p>
-                                <!--<li class="list-group-item">협업 스타일</li>
-                                <li class="list-group-item">각오</li>-->
-                            </ul>
-                        </div>
-                        <div class="col-2">
-                            <div class="btn-group-vertical" role="group"
-                                aria-label="Vertical radio toggle button group">
-                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1"
-                                    autocomplete="off" checked>
-                                <label id="strengthsBtn" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
-                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2"
-                                    autocomplete="off">
-                                <label id="resolutionBtn" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
-                                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3"
-                                    autocomplete="off">
-                                <label id="collaborationStyleBtn" class="btn btn-outline-danger"
-                                    for="vbtn-radio3">협업스타일</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- 팜업창 -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <!-- <h4>팝업 창</h4>
+                <p>이름: <span id="popup-name"></span></p> -->
+            <div id="popup_content">
+                <button class="close-btn" id="clbtn">닫기</button>
             </div>
         </div>
     </div>
+
+
 
 </body>
 

@@ -56,11 +56,12 @@ comment 로 시작하는 스타일들은 댓글 관련 입니다.
     list-style: none;
     padding: 0;
     margin-top: 20px;
+
     overflow-y: auto;
 
     display: flex;
     flex-flow: column nowrap;
-    gap: 10px;
+    gap: 10px
 }
 
 .opBox li {

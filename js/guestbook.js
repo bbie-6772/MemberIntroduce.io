@@ -1,3 +1,4 @@
+
 // firebase.js 로부터 데이터 / 함수 가져오기
 import {
     db,
@@ -21,6 +22,7 @@ let docs = await getDocs(
 );
 
 docs.forEach((docRef) => {
+
     let row = docRef.data();
     let name = row['nickName'];
     let text = row['comment'];
@@ -164,6 +166,7 @@ $("#btn").click(async function () {
 
         //값이 firebase에 올라가면 확인창
         await addDoc(collection(db, "comments"), innerDoc)
+      
             .then(() =>
                 alert('방명록이 성공적으로 추가되었습니다!')
             )
@@ -194,6 +197,7 @@ $("#btn").click(async function () {
         date.textContent = today
         span.innerText = text;
         h3.textContent = name;
+
         h3.dataset.date = now;
 
         // 구조 묶어주기
