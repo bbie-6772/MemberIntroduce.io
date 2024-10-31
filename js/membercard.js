@@ -45,4 +45,30 @@ $(document).ready(function () {
     $('#plsbtn').click(function () {
         window.location.href = 'addcard.html';
     });
+
+    const $scrollContainer = $('.memberCardWrap__content');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    $scrollContainer.on('mousedown', function (e) {
+        isDown = true;
+        $scrollContainer.addClass('active');
+        startX = e.pageX - $scrollContainer.offset().left;
+        scrollLeft = $scrollContainer.scrollLeft();
+        return false;
+    });
+
+    $(document).on('mouseup', function () {
+        isDown = false;
+        $scrollContainer.removeClass('active');
+    });
+
+    $(document).on('mousemove', function (e) {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - $scrollContainer.offset().left;
+        const walk = (x - startX) * 1;
+        $scrollContainer.scrollLeft(scrollLeft - walk);
+    });
 });
