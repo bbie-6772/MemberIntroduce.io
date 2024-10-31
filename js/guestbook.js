@@ -25,7 +25,6 @@ docs.forEach((docRef) => {
     let text = row['comment'];
     let Date = row['date'];
     let when = row['createdAt'];
-    let color = row['color'];
 
     //객체 생성
     const li = document.createElement('li');
@@ -54,7 +53,6 @@ docs.forEach((docRef) => {
     date.textContent = Date;
     span.innerText = text;
     h3.textContent = name;
-    h3.style.color = color;
 
     // 구조 묶어주기
     div.append(h3);
@@ -136,7 +134,6 @@ $("#btn").click(async function () {
     let today = new Date().toLocaleDateString();
     let now = new Date();
     let password = document.getElementById("ipPassword").value;
-    let color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
 
     // 이름과 내용이 적혀있지 않을 경우 실행되지 않도록 설계
     if (!name) {
@@ -189,8 +186,6 @@ $("#btn").click(async function () {
         btn_del.name = "delete";
         btn_del.type = "button";
 
-        //닉네임 랜덤 색깔
-        h3.style.color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
         //들어갈 값 정해주기
         btn_del.textContent = "삭제";
         date.textContent = today
