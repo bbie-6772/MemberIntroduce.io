@@ -3,8 +3,73 @@
 comment 로 시작하는 스타일들은 댓글 관련 입니다.
 */
 
+/* 입력 영역 */
+.bigBox {
+    width: 100%;
+}
 
-.commentLi {
+.mainBox {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.textBox {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.textBox:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.subBox2 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.nameBox {
+    width: 20%;
+    padding: 8px;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.nameBox:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* 댓글 목록 */
+.opBox {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.opBox li {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+/* .commentLi {
     border: 1px solid gray;
     border-radius: 5px;
     width: 100%;
@@ -19,7 +84,6 @@ comment 로 시작하는 스타일들은 댓글 관련 입니다.
     display: flex;
     justify-content: space-between;
     align-items: center;
-
 }
 
 .commentDate {
@@ -34,7 +98,6 @@ ul {
 
 .bigBox {
     padding: 0px 20px 30px 20px;
-    margin: 5% 0px 5% 0px;
 
     border: 1px solid #2d7acc;
     border-radius: 5px;
@@ -121,11 +184,11 @@ ul {
     transition: 0.01s;
 }
 
-[name="delete"] {
+[name='delete'] {
     float: right;
     border: 1px solid gray;
     background-color: #eb553b;
     border-radius: 3px;
     color: aliceblue;
     font-size: large;
-}
+} */
