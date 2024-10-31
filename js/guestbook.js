@@ -11,7 +11,7 @@ import {
     query,
 } from "./firebase.js";
 
-
+//댓글 넣을 자리 가져오기
 const Comment = document.querySelector("#cmBox");
 const name_point = document.querySelector("#ipName");
 
@@ -177,3 +177,17 @@ $("#btn").click(async function () {
         Comment.prepend(li);
     }
 });
+
+//세션 값 읽어오기
+const editMode = sessionStorage.getItem('editMode')
+// toggle 기능이 한번만 동작하도록 
+let btnHidden = false;
+
+// 관리자 모드 일 시 댓글삭제 버튼이 보이도록
+if (editMode !== 'true' && btnHidden === false) {
+    $("button[name='delete']").toggle();
+}else if (editMode === 'true' && btnHidden === true) {
+    $("button[name='delete']").toggle();
+    btnHidden = false;
+} 
+
