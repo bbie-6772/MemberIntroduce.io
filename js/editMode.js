@@ -37,6 +37,17 @@ $('#editbtn').click(async function () {
         window.location.reload();
         window.location.href = 'index.html';
     }   
-    
+    //세션 값 읽어오기
+const editMode = sessionStorage.getItem('editMode')
+// toggle 기능이 한번만 동작하도록 
+let editHidden = false;
+
+// 관리자 모드 일 시 댓글삭제 버튼이 보이도록
+if (editMode !== 'true' && editHidden === false) {
+    $("button[name='plsbtn']").toggle();
+}else if (editMode === 'true' && editHidden === true) {
+    $("button[name='plsbtn']").toggle();
+    editHidden = false;
+} 
 
 });
