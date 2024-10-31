@@ -22,7 +22,7 @@ $('#editbtn').click(async function () {
 
             if (data.key === key) {
                 alert('관리자로 확인이 되었습니다.');
-                window.location.href = 'index2.html';
+                window.location.href = 'index.html';
 
                 // 세션에 로그인 상태 저장
                 sessionStorage.setItem('editMode', 'true');
@@ -37,4 +37,15 @@ $('#editbtn').click(async function () {
         window.location.reload();
         window.location.href = 'index.html';
     }
+    function checkSessionKey() {
+        const sessionKey = sessionStorage.getItem('sessionKey'); // 세션에서 세션키 가져오기
+        
+        if (sessionKey) { // 세션키가 존재할 경우
+            $('#plsbtn').show(); // 버튼 보이기
+        }
+    }
+    $(document).ready(checkSessionKey);
+        
+    
+
 });

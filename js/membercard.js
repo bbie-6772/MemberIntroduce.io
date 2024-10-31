@@ -46,3 +46,4 @@ $(document).ready(function () {
         window.location.href = 'addcard.html';
     });
 });
+
