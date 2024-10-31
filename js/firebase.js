@@ -11,6 +11,8 @@ import {
     getDocs,
     setDoc,
     doc,
+    orderBy,
+    query,
 } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 import {
     getStorage,
@@ -44,4 +46,6 @@ export {
     ref,
     uploadBytes,
     getDownloadURL,
+    orderBy,
+    query,
 };
