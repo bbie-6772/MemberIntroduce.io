@@ -14,7 +14,7 @@
 
     <!-- 공용 스타일 css -->
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/membercard.css" />
+    <link rel="stylesheet" href="./css/cardmodal.css" />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +26,7 @@
     <!-- firebase script -->
     <script src="./js/firebase.js" type="module"></script>
 
-    <script src="./js/membercard.js" type="module"></script>
+    <script src="./js/cardmodal.js" type="module"></script>
 
 
 </head>
@@ -77,6 +77,16 @@
                     <button id="plsbtn" type="button" class="plsbt"><img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMCyyoX0vaRyKKoMOpIYS0LA94ZYOKGJmHvd_8g-KJIbLX1XVImG79MgC04rNNm46jJk&usqp=CAU"
                             alt="이미지"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-overlay" id="popup">
+            <div class="popup-content">
+                <!-- <h4>팝업 창</h4>
+                    <p>이름: <span id="popup-name"></span></p> -->
+                <div id="popup_content">
+                    <button class="close-btn" id="clbtn">닫기</button>
                 </div>
             </div>
         </div>
