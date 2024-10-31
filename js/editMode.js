@@ -36,16 +36,15 @@ $('#editbtn').click(async function () {
         sessionStorage.clear();
         window.location.reload();
         window.location.href = 'index.html';
-    }
+    }   
+
     function checkSessionKey() {
         const sessionKey = sessionStorage.getItem('sessionKey'); // 세션에서 세션키 가져오기
         
-        if (sessionKey) { // 세션키가 존재할 경우
-            $('#plsbtn').show(); // 버튼 보이기
+        if (sessionKey = 'editMode') { // 세션키가 존재할 경우
+            document.getElementById('plsbtn').style.display = 'inline';
         }
     }
     $(document).ready(checkSessionKey);
-        
-    
 
 });
