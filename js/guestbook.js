@@ -99,7 +99,7 @@ $(document).on("click", "button[name='delete']", async function () {
         // 이름과 작성된 날짜를 비교하여 삭제할 댓글 찾기
         if (name === nameCheck && date === dateCheck) {
 
-            // 비밀번호 비어있는지 확인
+            // 비밀번호 비어있는지  + 관리자 모드  확인
             if (pswdCheck !== "" && pswdCheck !== undefined && editMode !== 'true') {
 
                 let key = prompt('비밀번호를 입력해주세요.', '')
