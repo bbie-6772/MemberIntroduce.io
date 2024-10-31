@@ -216,23 +216,60 @@
     </style>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        // import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+//---- Firebase 설정
+// Firebase SDK 라이브러리 가져오기
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 
+import {
+    collection,
+    addDoc,
+    getDocs,
+    getFirestore,
+    setDoc,
+    doc,
+    deleteDoc,
+    orderBy,
+    query,
+} from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+} from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js';
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
-            authDomain: "sparta-1aa54.firebaseapp.com",
-            projectId: "sparta-1aa54",
-            storageBucket: "sparta-1aa54.appspot.com",
-            messagingSenderId: "210610766907",
-            appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
-            measurementId: "G-8ETLMBCMF2"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+// Firebase 구성 정보 설정
+const firebaseConfig = {
+    apiKey: 'AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4',
+    authDomain: 'sparta-1aa54.firebaseapp.com',
+    projectId: 'sparta-1aa54',
+    storageBucket: 'sparta-1aa54.appspot.com',
+    messagingSenderId: '210610766907',
+    appId: '1:210610766907:web:f3553a0bb7e166be9c081e',
+    measurementId: 'G-8ETLMBCMF2',
+};
+
+// Firebase 인스턴스 초기화
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+export {
+    collection,
+    addDoc,
+    getDocs,
+    getFirestore,
+    setDoc,
+    doc,
+    deleteDoc,
+    orderBy,
+    query, 
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+};
+
 
         async function loadCards() {
             const cardContainer = document.getElementById('cardlist');
@@ -255,26 +292,26 @@
         <p class="card-description">${data.introduction}</p>
     </div>
 </div>`;
-const cardElement = $(tempHtml).insertBefore('#plsbtn');
+                    const cardElement = $(tempHtml).insertBefore('#plsbtn');
 
-cardElement.find('img').on('load', function () {
-    loadedImages++;
-    cardElement.addClass('show');
+                    cardElement.find('img').on('load', function () {
+                        loadedImages++;
+                        cardElement.addClass('show');
 
-    if (loadedImages === totalCards) {
-        $('#plsbtn').addClass('show');
-    }
-});
+                        if (loadedImages === totalCards) {
+                            $('#plsbtn').addClass('show');
+                        }
+                    });
 
-// popup
+                    // popup
 
 
 
-            // 팝업 // 클릭 이벤트 핸들러 추가
-            cardElement.click(function () {
-                // $('#popup-name').text(name);  // 클릭한 카드의 이름을 팝업에 설정
-                
-                let temp_pop = `
+                    // 팝업 // 클릭 이벤트 핸들러 추가
+                    cardElement.click(function () {
+                        // $('#popup-name').text(name);  // 클릭한 카드의 이름을 팝업에 설정
+
+                        let temp_pop = `
                     <div id="removePop">
                         <div class="row">
                             <div id="imgsbox" class="col-3">
@@ -325,8 +362,11 @@ cardElement.find('img').on('load', function () {
                                     </div>
                                     <div class="col">
                                         <button onclick='reviseBtn()' id="reviseBtn" type="button" class="btn btn-outline-secondary">수정</button>
-                                        <button onclick='deleteBtn("${data.name}")' id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
-                                    </div>
+<!--
+    <button onclick='deleteBtn("${data.name}")' id="deleteBtn" type="button" class="btn btn-outline-secondary">삭제</button>
+-->
+<button id="deleteBtn" type="button" name="delete"  class="btn btn-outline-secondary">삭제</button>
+</div>
                                 </div>
                                 <div id="infodown" class="row">
                                     <div id="info3" class="col-8">
@@ -354,79 +394,84 @@ cardElement.find('img').on('load', function () {
                     </div>`
 
 
-                // 전역 변수로 PopCardElement 선언
-                let PopCardElement = $(temp_pop).insertBefore('#popup_content');
-                $('#popup').css('display', 'flex');  // 팝업 열기
-                $("#strengths").show();
-                // $("#collaborationStyle").hide();
-                // $("#resolution").hide();
-                console.log('팝업 열림');
-                ////////////////////////////////////////////////////////////////////////
-                window.deleteBtn = async function (name) {
-                    try {
-                        const membersRef = firebase.firestore().collection('members');                        
-                        const querySnapshot = await membersRef.where('name', '==', name).get();
-                        if (!querySnapshot.empty) {
-                            const deletePromises = querySnapshot.docs.map((doc) => doc.ref.delete());
-                            await Promise.all(deletePromises);
-                            console.log(`멤버 ${data.name} 삭제 완료`);
-                        } else {
-                            console.log(`멤버 ${data.name}을 찾을 수 없습니다.`);
+                        // 전역 변수로 PopCardElement 선언
+                        let PopCardElement = $(temp_pop).insertBefore('#popup_content');
+                        $('#popup').css('display', 'flex');  // 팝업 열기
+                        $("#strengths").show();
+                        // $("#collaborationStyle").hide();
+                        // $("#resolution").hide();
+                        console.log('팝업 열림');
+
+
+                        $(document).on("click", "button[name='delete']", async function () {
+    try {
+        // Firestore에서 문서 삭제
+        const docRef = doc(db, "members", $(this).prev().prev().text());
+        await deleteDoc(docRef);
+        console.log("await deketeDoc")
+    
+        // 성공 메시지 및 DOM 요소 제거
+        alert("성공적으로 삭제되었습니다!");
+        $(this).parent().remove();
+        document.getElementById("removePop").remove();
+        
+        // 팝업 닫기
+        $("#popup").css("display", "none");
+        console.log('$("#popup").css("display", "none");');
+    } catch (error) {
+        console.log("문서 삭제 오류:", error);
+        alert("삭제 중 오류가 발생했습니다.");
+    }
+});
+
+                        window.reviseBtn = function () {
+                            window.location.href = 'addcard.html';
+                            console.log(name + '수정하기')
                         }
-                    } catch (error) {
-                        console.log('삭제 중 오류 발생:' + error);
-                    }
-                };
-            
-                window.reviseBtn = function () {
-                    window.location.href = 'addcard.html';
-                    console.log(name + '수정하기')
-                }
 
-                // 모듈 스크립트에서 전역 deleteBtn 함수 생성
-                // 이름을 못가져옴.
-            })
-        /////////////////////////////
-
-            
-            // 장점
-            window.strengthsBtn = function () {
-                // 원하는 기능
-                $("#strengths").show();
-                $("#collaborationStyle").hide();
-                $("#resolution").hide();
-            };
-
-            // 협업 스타일
-            window.collaborationStyleBtn = function () {
-                $("#strengths").hide();
-                $("#collaborationStyle").show();
-                $("#resolution").hide();
-            };
-
-            // 각오
-            window.resolutionBtn = function () {
-
-                $("#strengths").hide();
-                $("#collaborationStyle").hide();
-                $("#resolution").show();
-            };
-
-        });
+                        // 모듈 스크립트에서 전역 deleteBtn 함수 생성
+                        // 이름을 못가져옴.
+                    })
+                    /////////////////////////////
 
 
-        // 팝업 닫기 버튼 클릭 시 팝업을 닫습니다.        
-        $("#clbtn").click(function () {
-            document.getElementById("removePop").remove();
-            $("#popup").css("display", "none");
-            console.log(' $("#popup").css("display", "none");')
-        })
+                    // 장점
+                    window.strengthsBtn = function () {
+                        // 원하는 기능
+                        $("#strengths").show();
+                        $("#collaborationStyle").hide();
+                        $("#resolution").hide();
+                    };
 
-// popup
+                    // 협업 스타일
+                    window.collaborationStyleBtn = function () {
+                        $("#strengths").hide();
+                        $("#collaborationStyle").show();
+                        $("#resolution").hide();
+                    };
+
+                    // 각오
+                    window.resolutionBtn = function () {
+
+                        $("#strengths").hide();
+                        $("#collaborationStyle").hide();
+                        $("#resolution").show();
+                    };
+
+                });
+
+
+                // 팝업 닫기 버튼 클릭 시 팝업을 닫습니다.        
+                $("#clbtn").click(function () {
+                    document.getElementById("removePop").remove();
+                    $("#popup").css("display", "none");console.log(' $("#popup").css("display", "none");')
+                })
+
+                // popup
 
             };
         }
-        
+
 
         loadCards();
     </script>
