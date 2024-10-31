@@ -5,7 +5,7 @@ import {
     getDocs,
     collection,
     deleteDoc,
-    setDoc,
+    addDoc,
     doc,
     orderBy,
     query,
@@ -25,6 +25,7 @@ docs.forEach((docRef) => {
     let name = row['nickName'];
     let text = row['comment'];
     let Date = row['date'];
+    let when = row['createdAt'];
 
     //객체 생성
     const li = document.createElement("li");
@@ -43,6 +44,8 @@ docs.forEach((docRef) => {
     //버튼 name으로 style + 기능 묶기
     btn_del.name = "delete";
     btn_del.type = "button";
+    //댓글 구분용 데이터 넣기
+    h3.dataset.date = when.toDate();
 
     //닉네임 랜덤 색깔
     h3.style.color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
@@ -62,23 +65,53 @@ docs.forEach((docRef) => {
 
 });
 
-// 삭제 버튼 함수
-$(document).on("click", "button[name='delete']", function () {
-    deleteDoc(doc(db, "comments",$(this).prev().prev().text()));
-    alert('성공적으로 삭제되었습니다!');
-    $(this).parent().remove();
+// 삭제 버튼 클릭 함수
+$(document).on("click", "button[name='delete']", async function () {
+
+    // 데이터 다시 읽어오기
+    let checkDocs = await getDocs(query(collection(db, "comments"), orderBy("createdAt")));
+    // 삭제 버튼을 누른 댓글에서 비교할 값 가져오기
+    let nameCheck = $(this).prev().prev().find("h3").text();
+    // floor 및 0.001 은 날짜 값을 올렸을 때 뒷자리 3자리가 "내림" 당한 값과 비교하기 위함
+    let dateCheck = Math.floor(new Date($(this).prev().prev().find("h3").data('date')).getTime() * 0.001);
+
+    checkDocs.forEach((docRef => {
+
+        let row = docRef.data();
+        let name = row['nickName'];
+        // 위 설명대로 뒷자리 3자리 배제
+        let date = Math.floor(row['createdAt'].toDate() * 0.001);
+
+        // 이름과 작성된 날짜를 비교하여 삭제할 댓글 찾기
+        if (name === nameCheck && date === dateCheck) {
+
+            //댓글을 firebase에서 삭제
+            deleteDoc(doc(db, "comments", docRef.id))
+            .then(() =>
+                //댓글을 화면에서 삭제
+                $(this).parent().remove()
+                //성공 확인창 띄워주기
+                .then(() =>
+                    alert('성공적으로 삭제되었습니다!')
+                )
+            );
+            
+
+        };
+    }));
+
 });
 
 
-// 작성 버튼
+// 작성 버튼 클릭 함수
 $("#btn").click(async function () {
     $("#ipName").prev().empty();
-
+    // 넣을 값 읽어오기 + 작성된 날짜 기록하기
     let name = document.getElementById("ipName").value;
     let text = document.getElementById("ipText").value;
     let today = new Date().toLocaleDateString();
     let now = new Date();
-
+    // 이름과 내용이 적혀있지 않을 경우 실행되지 않도록 설계
     if (!name) {
         const span = document.createElement("span");
         span.style.color = "#f26650";
@@ -93,6 +126,7 @@ $("#btn").click(async function () {
         name_point.before(span);
     } else if (text.length > 0) {
 
+        //올릴 값들을 정리하는 곳
         const innerDoc = {
             nickName: name,
             comment: text,
@@ -100,7 +134,8 @@ $("#btn").click(async function () {
             createdAt: now,
         };
 
-        await setDoc(doc(db, "comments", name + today), innerDoc)
+        //값이 firebase에 올라가면 확인창
+        await addDoc(collection(db, "comments"), innerDoc)
             .then(() =>
                 alert('방명록이 성공적으로 추가되었습니다!')
             )
@@ -131,6 +166,7 @@ $("#btn").click(async function () {
         date.textContent = today
         span.innerText = text;
         h3.textContent = name;
+        h3.dataset.date = now;
 
         //구조 묶어주기 
         div.append(h3);
