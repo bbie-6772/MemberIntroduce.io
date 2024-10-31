@@ -9,107 +9,138 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-      
-        .allcard {
-            width: 1400px;
-            display: flex;
-            justify-content: center;
-            margin: 30px auto 0px auto;
 
+    <style>
+        .memberCardWrap__content {
+            /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    font-family: Arial, sans-serif; */
+
+            /* background-color: #eee; */
+        }
+
+        .card-container {
+            /* display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px; */
+            /* margin: 50px; */
+
+            width: 100%;
+
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            gap: 20px;
         }
 
         .myteamcard {
-            height: 500px;
-            width: 320px;
-            padding: 15px;
-            border: 1px solid black;
-            border-radius: 5px;
-            background-color: whitesmoke;
-            margin: 24px 10px 0px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 200px;
+
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .myteamcard.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .myteamcard:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-            cursor: pointer;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .card {
-            flex-direction: row;
-            background-color: transparent;
-            border: 1px solid transparent;
+        .myteamcard img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
 
-        /*faceimge 랑 cardtext를 묶는 거.*/
-
-        .faceimge {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid black;
-            width: 175px;
-            height: 225px;
-            border-radius: 5px;
-        }
-
-        /*사진임*/
-
-        .cardtext {
-            margin: 0px 0px 0px 20px;
-            padding: 15px;
-            border: 1px solid black;
-            border-radius: 5px;
+        .card-content {
             text-align: center;
-            background-color: white;
+            padding: 14px 10px;
         }
 
-        /*이름,mbti등*/
-
-        .cardtext2 {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid black;
-            border-radius: 5px;
-            width: 287px;
-            background-color: white;
-        }
-
-        /*장점등*/
-
-
-        .blog-link {
+        .card-content-title {
             display: flex;
+            flex-flow: row nowrap;
             justify-content: center;
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
+            align-items: center;
+            gap: 5px;
         }
 
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            /* color: #333; */
+            /* margin: 10px 0; */
+        }
+
+        .card-mbti {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline;
+            background-color: rgb(119, 52, 171);
+            padding: 2px 6px;
+            border-radius: 5rem;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #666;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         .plsbt {
-            height: 500px;
-            width: 320px;
-            border-radius: 5px;
+            width: 200px;
+            /* width: 100%; */
+            border: none;
+            border-radius: 12px;
+            display: none;
+            background-color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.6s ease, transform 0.3s ease;
+            /* padding: 20px; */
+            text-align: center;
+        }
+
+        .plsbt img {
+            display: block;
+            margin: 0 auto;
+            width: 25%;
+            height: auto;
+        }
+
+        .plsbt.show {
+            display: block;
         }
 
         .plsbt:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-            /* 약간 어두워짐 */
-            cursor: pointer;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .postingbtng {
-            height: 500px;
-            width: 330px;
-        }
-
-        /*위에 버튼 공간 잡는거 없으면 찌그러짐*/
-      
-        /*이 밑은 카드 누르면 나오는 팝업창이므로 바꾸기.*/
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -120,19 +151,23 @@
             display: none;
             justify-content: center;
             align-items: center;
+
         }
 
         .popup-content {
-            width: 300px;
             padding: 20px;
-            background-color: white;
             border-radius: 8px;
             text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+            background-color: rgb(108, 209, 162);
+            width: 1000px;
+            height: 600px;
+            /* margin: 30px; */
+            box-shadow: 0px 0px 30px 0px rgb(88, 163, 128);
         }
 
         .close-btn {
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 8px 16px;
             background-color: blue;
             color: white;
@@ -140,40 +175,99 @@
             border-radius: 4px;
             cursor: pointer;
         }
-    
-    </style>
 
+        #imgsbox {
+            padding: 5px;
+            margin-right: 15px;
+            border-radius: 30px;
+        }
+
+        #infobox {
+            padding: 5px;
+            margin-left: 30px;
+            border-radius: 30px;
+            background-color: white;
+        }
+
+        #memberImg {
+            width: 300px;
+            height: 400px;
+        }
+
+        #link_img {
+            width: 100px;
+            height: 100px;
+        }
+
+        #blBtn {
+            margin: 10px 10px 0px 10px;
+            padding: 1px;
+        }
+
+        #infoup {
+            margin: 10px 10px 0px 5px;
+            border-radius: 10px;
+            height: 160px;
+        }
+
+        #infodown {
+            margin: 10px 10px 0px 5px;
+            border-radius: 10px;
+            height: 300px;
+        }
+
+        #info1 {
+            height: max-content;
+        }
+
+        #info2 {
+            background-color: rgba(108, 209, 162, 0.41);
+            border-radius: 10px;
+            height: 160px;
+            text-align: left;
+        }
+
+        #reviseBtn {
+            width: 90px;
+            margin: 10px;
+            padding: 3px;
+        }
+
+        #deleteBtn {
+            width: 90px;
+            margin: 10px;
+            padding: 3px;
+        }
+
+        #info3 {
+            height: 300px;
+            background-color: rgba(108, 209, 162, 0.41);
+            border-radius: 10px;
+            text-align: left;
+        }
+    </style>
 
 </head>
 
 <body>
-    <div class="allcard">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="postingbtng" id="cardlist">
-
-                <button id="plsbtn" type="button" class="plsbt">추가하기</button>
-            </div>
-        </div>
-
+    <div class="card-container" id="cardlist">
+        <button id="plsbtn" type="button" class="plsbt"><img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMCyyoX0vaRyKKoMOpIYS0LA94ZYOKGJmHvd_8g-KJIbLX1XVImG79MgC04rNNm46jJk&usqp=CAU"
+                alt="이미지"></button>
     </div>
 
     <div class="popup-overlay" id="popup">
         <div class="popup-content">
-            <h4>팝업 창</h4>
-            <p>이름: <span id="popup-name"></span></p>
-            <button class="close-btn" id="clbtn">닫기</button>
+            <div id="popup_content">
+                <button class="close-btn" id="clbtn">닫기</button>
+            </div>
         </div>
     </div>
 
-
     <script type="module">
-        // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-
-        // Firebase 구성 정보 설정
         const firebaseConfig = {
             apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
             authDomain: "sparta-1aa54.firebaseapp.com",
@@ -183,64 +277,210 @@
             appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
             measurementId: "G-8ETLMBCMF2"
         };
-
-        // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        async function loadCards() {
+            const cardContainer = document.getElementById('cardlist');
+            const docs = await getDocs(collection(db, 'members'));
+            const totalCards = docs.size;
+
+            let loadedImages = 0;
+
+            if (totalCards === 0) {
+                document.getElementById('plsbtn').classList.add('show');
+            } else {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            observer.unobserve(img);
+                        }
+                    });
+                });
+
+                docs.forEach((doc) => {
+                    const data = doc.data();
+                    const tempHtml = `
+<div class="myteamcard">
+    <img data-src="${data.imageUrl}" alt="이미지">
+    <div class="card-content">
+        <div class="card-content-title">
+            <h3 class="card-title">${data.name}</h3>
+            <p class="card-mbti">${data.mbti}</p>
+        </div>
+       <p class="card-description">${data.introduction}</p>
+    </div>
+</div>`;
+                    const cardElement = $(tempHtml).insertBefore('#plsbtn');
 
 
-        let docs = await getDocs(collection(db, "members"));
-        docs.forEach((doc) => {
-            let row = doc.data();
-            let imageUrl = row['imageUrl'];
-            let name = row['name'];
-            let mbti = row['mbti'];
-            let hobby = row['hobby'];
-            let strengths = row['strengths'];
-            let collaborationStyle = row['collaborationStyle'];
-            let resolution = row['resolution'];
-            let blogLink = row['blogLink'];
+                    observer.observe(cardElement.find('img')[0]); // Apply lazy loading
 
-            let temp_html = `        
-           <div class="myteamcard">
-                <div class="card">
-                    <img src="${imageUrl}"
-                        class="faceimge">
-                    <div class="cardtext">
-                        <h5 class="card-title">이름<p>${name}</p>
-                        </h5>
-                        <h5 class="card-text">mbti<p>${mbti}</p>
-                        </h5>
-                        <h5 class="card-text">취미<p>${hobby}</p>
-                        </h5>
-                    </div>
-                </div>
-                <div class="cardtext2">
-                    <h5 class="card-title">장점: ${strengths}</p>
-                    </h5>
-                    <h5 class="card-title">협업 스타일: ${collaborationStyle}</p>
-                    </h5>
-                    <h5 class="card-title">다짐: ${resolution}</p>
-                    </h5>
-                </div>
-                <a href="${blogLink}" target="_blank" class="blog-link"
-                    onclick="event.stopPropagation()">blog</a>
-            </div>`;
-            let cardElement = $(temp_html).insertBefore('#cardlist');
+                    cardElement.find('img').on('load', function () {
+                        loadedImages++;
+                        cardElement.addClass('show');
+                        if (loadedImages === totalCards) {
+                            $('#plsbtn').addClass('show');
+                        }
+                    });
 
-            // 클릭 이벤트 핸들러 추가
-            cardElement.click(function () {
-                $('#popup-name').text(name);  // 클릭한 카드의 이름을 팝업에 설정
-                $('#popup').css('display', 'flex');  // 팝업 열기
-            });
-        });
 
-        // 팝업 닫기 버튼 클릭 시 팝업을 닫습니다.
+                    cardElement.click(function () {
+                        // $('#popup-name').text(name);  // 클릭한 카드의 이름을 팝업에 설정
+
+                        const tempPop = `
+                    <div id="removePop">
+                        <div class="row">
+                            <div id="imgsbox" class="col-3">
+                                <div class="imgcard">
+                                    <img id="memberImg" src="${data.imageUrl}" class="card-img-top" alt="...">
+                                    <div>
+                                        <div class="row">
+
+                                            <!--블로그버튼-->
+                                            <button id="blBtn" type="button" class="col btn btn-outline-success">
+                                                <a href="${data.blogLink}" target="_blank" rel="noopener noreferrer">
+                                                    <img id="link_img"
+                                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_V5ImHw0BTMnCJ4GSqBsDdD-bxLsyuCh4Q5V7XX2aiVuxCbTG6RT2151CA1-G6XaE7k&usqp=CAU"
+                                                        class="card-img-top" alt="...">
+                                                </a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                            <div id="infobox" class="col-8">
+                                <div id="infoup" class="row">
+                                    <div id="info1" class="col-3">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">이름</th>
+                                                    <th scope="col">${data.name}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">MBTI</th>
+                                                    <td>${data.mbti}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">취미</th>
+                                                    <td>${data.hobby}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="info2" class="col-5">
+                                        <ul class=" list-group">
+                                            <p>${data.introduction}</p>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        button onclick='reviseBtn()' id="reviseBtn" type="button"
+                                            class="btn btn-outline-secondary">수정</button>
+                                        <button onclick='deleteBtn()' id="deleteBtn" type="button"
+                                            class="btn btn-outline-secondary">삭제</button>
+                                    </div>
+                                </div>
+                                <div id="infodown" class="row">
+                                    <div id="info3" class="col-8">
+                                        <ul class=" list-group">
+                                            <p id="strengths" style="display: none;">${data.strengths}</p>
+                                            <p id="collaborationStyle" style="display: none;">${data.collaborationStyle}</p>
+                                            <p id="resolution" style="display: none;">${data.resolution}</p>
+                                        </ul>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
+                                                checked>
+                                            <label onclick="strengthsBtn()" class="btn btn-outline-danger" for="vbtn-radio1">장점</label>
+                                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                                            <label onclick="resolutionBtn()" class="btn btn-outline-danger" for="vbtn-radio2">각오</label>
+                                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                                            <label onclick="collaborationStyleBtn()" class="btn btn-outline-danger"
+                                                for="vbtn-radio3">협업스타일</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+
+
+                        // 전역 변수로 PopCardElement 선언
+                        const PopCardElement = $(tempPop).insertBefore('#popup_content');
+
+
+                        $('#popup').css('display', 'flex');  // 팝업 열기
+                        $("#strengths").show();
+                        // $("#collaborationStyle").hide();
+                        // $("#resolution").hide();
+                        console.log('팝업 열림');
+                    })
+
+
+
+                    cardElement.find('img').on('load', function () {
+                        loadedImages++;
+                        cardElement.addClass('show');
+
+                        if (loadedImages === totalCards) {
+                            $('#plsbtn').addClass('show');
+                        }
+                    });
+                });
+            }
+        }
+
+        loadCards();
+
+        window.reviseBtn = function () {
+            // 원하는 기능
+            console.log(`${name}`)
+        };
+
+
+        window.deleteBtn = function () {
+            // 원하는 기능
+            console.log('삭제키 작동')
+        };
+
+
+        // 장점
+        window.strengthsBtn = function () {
+            // 원하는 기능
+            $("#strengths").show();
+            $("#collaborationStyle").hide();
+            $("#resolution").hide();
+        };
+
+        // 협업 스타일
+        window.collaborationStyleBtn = function () {
+            $("#strengths").hide();
+            $("#collaborationStyle").show();
+            $("#resolution").hide();
+        };
+
+        // 각오
+        window.resolutionBtn = function () {
+
+            $("#strengths").hide();
+            $("#collaborationStyle").hide();
+            $("#resolution").show();
+        };
+
+
+        // 팝업 닫기 버튼 클릭 시 팝업을 닫습니다.        
         $("#clbtn").click(function () {
+            document.getElementById("removePop").remove();
             $("#popup").css("display", "none");
-        });
-
+            console.log(' $("#popup").css("display", "none");')
+        })
     </script>
 
     <script>
@@ -249,10 +489,8 @@
                 window.location.href = 'addcard.html';
             });
         });
-        //분리 안하면 작동을 안함;;
     </script>
 
 </body>
-
 
 </html>

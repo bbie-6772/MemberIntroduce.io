@@ -52,6 +52,7 @@
         transparent
     );
 } */
+}
 
 .card-container {
     display: flex;
@@ -135,6 +136,7 @@
     min-width: 200px; /* 카드가 축소되지 않도록 설정 */
     max-width: 200px; /* 카드가 확장되지 않도록 설정 */
 
+    height:300px;
     border: none;
     border-radius: 12px;
     background-color: #fff;
