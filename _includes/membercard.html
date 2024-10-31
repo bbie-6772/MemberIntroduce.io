@@ -205,28 +205,10 @@
             let temp_html = `        
            <div class="myteamcard">
                 <div class="card">
-                    <img src="${imageUrl}"
-                        class="faceimge">
+                    
                     <div class="cardtext">
                         <h5 class="card-title">이름<p>${name}</p>
-                        </h5>
-                        <h5 class="card-text">mbti<p>${mbti}</p>
-                        </h5>
-                        <h5 class="card-text">취미<p>${hobby}</p>
-                        </h5>
-                    </div>
-                </div>
-                <div class="cardtext2">
-                    <h5 class="card-title">장점: ${strengths}</p>
-                    </h5>
-                    <h5 class="card-title">협업 스타일: ${collaborationStyle}</p>
-                    </h5>
-                    <h5 class="card-title">다짐: ${resolution}</p>
-                    </h5>
-                </div>
-                <a href="${blogLink}" target="_blank" class="blog-link"
-                    onclick="event.stopPropagation()">blog</a>
-            </div>`;
+                        </h5></div></div></div>`;
             let cardElement = $(temp_html).insertBefore('#cardlist');
 
             // 클릭 이벤트 핸들러 추가
