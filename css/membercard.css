@@ -1,31 +1,31 @@
-.memberCardWrap__content {
-    /* display: flex;
+/* .memberCardWrap__content {
+    display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
-    font-family: Arial, sans-serif; */
+    font-family: Arial, sans-serif;
 
-    /* background-color: #eee; */
-}
+    background-color: #eee;
+} */
 
-.card-container {
-    /* display: grid;
+/* .card-container {
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-template-columns: repeat(4, minmax(200px, 1fr));
     gap: 20px;
-    max-width: 1200px; */
-    /* margin: 50px; */
+    max-width: 1200px; 
+    margin: 50px;
 
     width: 100%;
 
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: flex-start;
     gap: 20px;
-}
+} */
 
-.myteamcard {
-    width: 200px;
+/* .myteamcard {
+    width: 300px;
 
     opacity: 0;
     transform: translateY(50px);
@@ -35,6 +35,41 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 300px;
+} */
+
+.memberCardWrap__content {
+    display: flex;
+    gap: 16px; /* 카드 간의 간격 */
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    padding: 5px 20px 30px 20px;
+    scroll-snap-type: x mandatory; /* 스크롤 스냅 추가 (선택 사항) */
+
+    /* mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 10%,
+        black 90%,
+        transparent
+    );
+} */
+
+.card-container {
+    display: flex;
+    flex-flow: row nowrap; /* 카드들이 한 줄로 정렬되도록 설정 */
+    gap: 20px;
+}
+
+.myteamcard {
+    width: 200px; /* 카드 너비 고정 */
+    min-width: 200px; /* 카드가 축소되지 않도록 설정 */
+    max-width: 200px; /* 카드가 확장되지 않도록 설정 */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .myteamcard.show {
@@ -43,7 +78,7 @@
 }
 
 .myteamcard:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -96,8 +131,10 @@
 }
 
 .plsbt {
-    width: 200px;
-    /* width: 100%; */
+    width: 200px; /* 카드 너비 고정 */
+    min-width: 200px; /* 카드가 축소되지 않도록 설정 */
+    max-width: 200px; /* 카드가 확장되지 않도록 설정 */
+
     border: none;
     border-radius: 12px;
     display: none;
