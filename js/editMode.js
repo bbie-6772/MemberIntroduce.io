@@ -24,6 +24,7 @@ $('#editbtn').click(async function () {
             if (data.key === key) {
                 alert('관리자로 확인이 되었습니다.');
                 window.location.href = 'index.html';
+                $("#plsbtn").toggle()
 
                 // 세션에 로그인 상태 저장
                 sessionStorage.setItem('editMode', 'true');
