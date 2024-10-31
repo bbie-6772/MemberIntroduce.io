@@ -120,7 +120,7 @@ a {
 }
 
 .bannerWrap__text-content h4,
-p {
+.bannerWrap__text-content p {
     margin-left: 50px;
 }
 
@@ -132,12 +132,12 @@ p {
 
 /* 멤버 카드 스타일 */
 .memberCardWrap__content {
-    background: #eee;
-    height: 1000px;
+    /* background: #eee; */
+    /* height: 1000px; */
 }
 
 /* 방명록 스타일 */
 .guestbookWrap__content {
-    background: #eee;
-    height: 1000px;
+    /* background: #eee; */
+    /* height: 1000px; */
 }
