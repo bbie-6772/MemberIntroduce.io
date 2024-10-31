@@ -9,171 +9,117 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <style>
-      
-        .allcard {
-            width: 1400px;
-            display: flex;
-            justify-content: center;
-            margin: 30px auto 0px auto;
-
-        }
-
-        .myteamcard {
-            height: auto;
-            width: auto;
-            padding: 15px;
-            border: 1px solid black;
-            border-radius: 5px;
-            background-color: whitesmoke;
-            margin: 24px 10px 0px 10px;
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px;
+        }
+
+        .myteamcard {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .myteamcard.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .myteamcard:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-            cursor: pointer;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .card {
-            flex-direction: row;
-            background-color: transparent;
-            border: 1px solid transparent;
+        .myteamcard img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
 
-        /*faceimge 랑 cardtext를 묶는 거.*/
-
-        .faceimge {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid black;
-            width: 175px;
-            height: 225px;
-            border-radius: 5px;
-        }
-
-        /*사진임*/
-
-        .cardtext {
-            margin: 0px 0px 0px 20px;
-            padding: 15px;
-            border: 1px solid black;
-            border-radius: 5px;
+        .card-content {
+            padding: 20px;
             text-align: center;
-            background-color: white;
         }
 
-        /*이름,mbti등*/
-
-        .cardtext2 {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid black;
-            border-radius: 5px;
-            width: 287px;
-            background-color: white;
-        }
-
-        /*장점등*/
-
-
-        .blog-link {
-            display: flex;
-            justify-content: center;
-            text-decoration: none;
-            color: black;
+        .card-title {
+            font-size: 18px;
             font-weight: bold;
+            color: #333;
+            margin: 10px 0;
         }
 
+        .card-description {
+            font-size: 14px;
+            color: #666;
+        }
 
         .plsbt {
-            height: 500px;
-            width: 320px;
-            border-radius: 5px;
+            height: auto;
+            max-width: 300px;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            display: none;
+            background-color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.6s ease, transform 0.3s ease;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .plsbt img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .plsbt.show {
+            display: block;
         }
 
         .plsbt:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-            /* 약간 어두워짐 */
-            cursor: pointer;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         }
-
-        .postingbtng {
-            height: 500px;
-            width: 330px;
-        }
-
-        /*위에 버튼 공간 잡는거 없으면 찌그러짐*/
-      
-        /*이 밑은 카드 누르면 나오는 팝업창이므로 바꾸기.*/
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-content {
-            width: 300px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .close-btn {
-            margin-top: 20px;
-            padding: 8px 16px;
-            background-color: blue;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    
     </style>
-
 
 </head>
 
 <body>
-    <div class="allcard">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="postingbtng" id="cardlist">
-
-                <button id="plsbtn" type="button" class="plsbt">추가하기</button>
-            </div>
-        </div>
-
+    <div class="card-container" id="cardlist">
+        <button id="plsbtn" type="button" class="plsbt"><img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMCyyoX0vaRyKKoMOpIYS0LA94ZYOKGJmHvd_8g-KJIbLX1XVImG79MgC04rNNm46jJk&usqp=CAU"
+                alt="이미지"></button>
     </div>
-
-    <div class="popup-overlay" id="popup">
-        <div class="popup-content">
-            <h4>팝업 창</h4>
-            <p>이름: <span id="popup-name"></span></p>
-            <button class="close-btn" id="clbtn">닫기</button>
-        </div>
-    </div>
-
-
     <script type="module">
-        // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-
-        // Firebase 구성 정보 설정
         const firebaseConfig = {
             apiKey: "AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4",
             authDomain: "sparta-1aa54.firebaseapp.com",
@@ -183,46 +129,45 @@
             appId: "1:210610766907:web:f3553a0bb7e166be9c081e",
             measurementId: "G-8ETLMBCMF2"
         };
-
-        // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        async function loadCards() {
+            const cardContainer = document.getElementById('cardlist');
+            const docs = await getDocs(collection(db, "members"));
+            const totalCards = docs.size;
 
+            let loadedImages = 0;
 
-        let docs = await getDocs(collection(db, "members"));
-        docs.forEach((doc) => {
-            let row = doc.data();
-            let imageUrl = row['imageUrl'];
-            let name = row['name'];
-            let mbti = row['mbti'];
-            let hobby = row['hobby'];
-            let strengths = row['strengths'];
-            let collaborationStyle = row['collaborationStyle'];
-            let resolution = row['resolution'];
-            let blogLink = row['blogLink'];
+            if (totalCards === 0) {
+                document.getElementById('plsbtn').classList.add('show');
+            } else {
+                docs.forEach((doc) => {
+                    const data = doc.data();
+                    const tempHtml = `
+<div class="myteamcard">
+    <img src="${data.imageUrl}" alt="이미지">
+    <div class="card-content">
+        <h3 class="card-title">${data.name}</h3>
+        <p class="card-description">${data.introduction}</p>
+    </div>
+</div>`;
 
-            let temp_html = `        
-           <div class="myteamcard">
-                <div class="card">
-                    
-                    <div class="cardtext">
-                        <h5 class="card-title">이름<p>${name}</p>
-                        </h5></div></div></div>`;
-            let cardElement = $(temp_html).insertBefore('#cardlist');
+                    const cardElement = $(tempHtml).insertBefore('#plsbtn');
 
-            // 클릭 이벤트 핸들러 추가
-            cardElement.click(function () {
-                $('#popup-name').text(name);  // 클릭한 카드의 이름을 팝업에 설정
-                $('#popup').css('display', 'flex');  // 팝업 열기
-            });
-        });
+                    cardElement.find('img').on('load', function () {
+                        loadedImages++;
+                        cardElement.addClass('show');
 
-        // 팝업 닫기 버튼 클릭 시 팝업을 닫습니다.
-        $("#clbtn").click(function () {
-            $("#popup").css("display", "none");
-        });
+                        if (loadedImages === totalCards) {
+                            $('#plsbtn').addClass('show');
+                        }
+                    });
+                });
+            }
+        }
 
+        loadCards();
     </script>
 
     <script>
@@ -231,10 +176,8 @@
                 window.location.href = 'addcard.html';
             });
         });
-        //분리 안하면 작동을 안함;;
     </script>
 
 </body>
-
 
 </html>

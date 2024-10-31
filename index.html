@@ -1,35 +1,219 @@
----
----
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <head>
+        <!-- jquery script -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- Animate.css -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>멤버 소개하기</title>
+        <!-- bootstrap script -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
 
-    <script type="module">
+        <!-- 공용 스타일 css -->
+        <link rel="stylesheet" href="./css/style.css" />
 
-    </script>
-  </head>
+        <!-- 방명록 스타일-->
+        <link rel="stylesheet" href="./css/guestbook.css" />
 
-  <body>
+        <!-- 멤버 카드 css -->
+        <link rel="stylesheet" href="./css/membercard.css" />
 
-    {% include header.html %}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>✨8조 다모여✨</title>
 
-    {% include editmode.html %}
-    
-    {% include membercard.html %}
+        <!-- edit mode script -->
+        <script src="./js/editMode.js" type="module"></script>
 
-    {% include cardmodal.html %}
+        <!-- firebase script -->
+        <script src="./js/firebase.js" type="module"></script>
 
-    {% include addcard.html %}
+        <!-- 방명록 코드-->
+        <script src="./js/guestbook.js" type="module"></script>
 
-    {% include guestbook.html %}
-    
-  </body>
+        <!-- member card script-->
+        <script src="./js/membercard.js" type="module"></script>
+    </head>
+
+    <body>
+        <!-- header section -->
+        <header class="header container-fluid">
+            <div
+                class="container d-flex justify-content-between align-items-center p-0"
+            >
+                <a class="title" href="index.html">8조</a>
+
+                <div class="menu d-flex align-items-center">
+                    <a href="#member">멤버 소개</a>
+                    <a href="#guestbook">방명록</a>
+                    <button id="editbtn" class="btn btn-primary ms-2">
+                        편집모드
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- banner section -->
+        <div class="bannerWrap">
+            <div class="bannerWrap__content">
+                <div
+                    class="bannerWrap__image-wrapper animate__animated animate__fadeInLeft"
+                >
+                    <img src="asset/images/fireRtan.png" alt="banner image" />
+                </div>
+
+                <div
+                    class="bannerWrap__text-content animate__animated animate__fadeInUp"
+                >
+                    <h3 class="bannerWrap__title">🔥This is SPARTA🔥</h3>
+                    <h4 class="bannerWrap__subtitle">우리는 8조, 88ㅎrZl</h4>
+                    <p class="bannerWrap__description">
+                        이번 기수 마무리하고 판교 가즈아~<br />
+                        나는 디지털노마드가 될거야~~~<br />
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-5">
+            <!-- member card section -->
+            <div class="container memberCardWrap mb-5">
+                <h5 id="member" class="subtitle">
+                    자랑스런 저희 멤버들을 소개할게요😁
+                </h5>
+
+                <div class="memberCardWrap__content">
+                    <div class="card-container" id="cardlist">
+                        <button id="plsbtn" type="button" class="plsbt">
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMCyyoX0vaRyKKoMOpIYS0LA94ZYOKGJmHvd_8g-KJIbLX1XVImG79MgC04rNNm46jJk&usqp=CAU"
+                                alt="이미지"
+                            />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- guestbook section -->
+            <div class="container guestbookWrap">
+                <h5 id="guestbook" class="subtitle">
+                    남기고 싶은 이야기가 있으신가요❓
+                </h5>
+
+                <div class="guestbookWrap__content">
+                    <div class="bigBox">
+                        <div class="mainBox">
+                            <div class="subBox">
+                                <textarea
+                                    id="ipText"
+                                    cols="30"
+                                    rows="5"
+                                    class="textBox"
+                                    placeholder="남기고 싶은 이야기를 적어주세요"
+                                    aria-label="남기고 싶은 이야기를 적어주세요"
+                                ></textarea>
+                                <div class="subBox2">
+                                    <input
+                                        id="ipName"
+                                        type="text"
+                                        class="nameBox"
+                                        placeholder="닉네임"
+                                        aria-label="닉네임"
+                                    />
+                                    <button
+                                        onclick=""
+                                        class="btn btn-primary px-4"
+                                        type="button"
+                                        id="btn"
+                                    >
+                                        작성
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="opBox" id="cmBox"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <script type="module">
+            import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+            import {
+                getFirestore,
+                collection,
+                getDocs,
+            } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+            const firebaseConfig = {
+                apiKey: 'AIzaSyCGqR4KmttjxTiDXOgnAlq_zK85FfceU_4',
+                authDomain: 'sparta-1aa54.firebaseapp.com',
+                projectId: 'sparta-1aa54',
+                storageBucket: 'sparta-1aa54.appspot.com',
+                messagingSenderId: '210610766907',
+                appId: '1:210610766907:web:f3553a0bb7e166be9c081e',
+                measurementId: 'G-8ETLMBCMF2',
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            async function loadCards() {
+                const cardContainer = document.getElementById('cardlist');
+                const docs = await getDocs(collection(db, 'members'));
+                const totalCards = docs.size;
+
+                let loadedImages = 0;
+
+                if (totalCards === 0) {
+                    document.getElementById('plsbtn').classList.add('show');
+                } else {
+                    docs.forEach((doc) => {
+                        const data = doc.data();
+                        const tempHtml = `
+            <div class="myteamcard">
+                <img src="${data.imageUrl}" alt="이미지">
+                <div class="card-content">
+                    <div class="card-content-title">
+                        <h3 class="card-title">${data.name}</h3>
+                        <p class="card-mbti">${data.mbti}</p>
+                    </div>
+                   <p class="card-description">${data.introduction}</p>
+
+                </div>
+            </div>`;
+
+                        const cardElement = $(tempHtml).insertBefore('#plsbtn');
+
+                        cardElement.find('img').on('load', function () {
+                            loadedImages++;
+                            cardElement.addClass('show');
+
+                            if (loadedImages === totalCards) {
+                                $('#plsbtn').addClass('show');
+                            }
+                        });
+                    });
+                }
+            }
+
+            loadCards();
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('#plsbtn').click(function () {
+                    window.location.href = 'addcard.html';
+                });
+            });
+        </script> -->
+    </body>
 </html>
