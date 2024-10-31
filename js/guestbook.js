@@ -183,6 +183,7 @@ $("#btn").click(async function () {
         div.className = "commentDiv";
         date.className = "commentDate"
         btn_del.className = "btn btn-danger btn-sm";
+        newDiv.className = 'commentContent'; // 새로 추가한 div의 클래스 설정
 
         //버튼 name으로 style + 기능 묶기
         btn_del.name = "delete";
