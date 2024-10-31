@@ -11,204 +11,17 @@
 
         <!-- 공용 스타일 css -->
         <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/addcard.css" />
 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>✨8조 다모여✨</title>
 
-        <!-- edit mode script -->
-        <script src="./js/editMode.js" type="module"></script>
-
         <!-- firebase script -->
         <script src="./js/firebase.js" type="module"></script>
 
-        <script type="module">
-            import {
-                db,
-                storage,
-                collection,
-                addDoc,
-                getDocs,
-                setDoc,
-                doc,
-                ref,
-                uploadBytes,
-                getDownloadURL,
-            } from './js/firebase.js';
-
-            // url에서 name(변경될 수 있음) 파라미터 가져오기
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
-
-            const nameParam = getQueryParam('name');
-            let documentId = null; // Firebase 문서ID
-
-            // 파라미터 name 값이 존재할 경우, 해당 값으로 데이터 가져오기
-            if (nameParam) {
-                $(document).ready(async function () {
-                    const memberRef = collection(db, 'members');
-                    const querySnapshot = await getDocs(memberRef);
-
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-
-                        if (data.name === nameParam) {
-                            documentId = doc.id; // 문서 ID 저장
-                            $('#name').val(data.name);
-                            $('#mbti').val(data.mbti).change();
-                            $('#blogLink').val(data.blogLink);
-                            $('#hobby').val(data.hobby);
-                            $('#introduction').val(data.introduction);
-                            $('#strengths').val(data.strengths);
-                            $('#collaborationStyle').val(
-                                data.collaborationStyle
-                            );
-                            $('#resolution').val(data.resolution);
-
-                            $('#title').text('멤버 카드 수정하기');
-                            $('#submit').text('수정하기');
-
-                            if (data.imageUrl) {
-                                $('#imagePreview').html(
-                                    `<img src="${data.imageUrl}" style="max-width: 100%; max-height: 100%;" alt="미리보기 이미지">`
-                                );
-                            }
-                        }
-                    });
-                });
-            }
-
-            // 폼 클릭 시 이벤트
-            $('#memberForm').on(
-                'click',
-                'button[type="submit"]',
-                async function (e) {
-                    e.preventDefault();
-
-                    // 입력 데이터 수집
-                    const name = $('#name').val();
-                    const mbti = $('#mbti').val();
-                    const blogLink = $('#blogLink').val();
-                    const hobby = $('#hobby').val();
-                    const introduction = $('#introduction').val();
-                    const strengths = $('#strengths').val();
-                    const collaborationStyle = $('#collaborationStyle').val();
-                    const resolution = $('#resolution').val();
-                    const imageFile = $('#imageUpload')[0].files[0];
-                    // const oriFileName = $('#imageUpload')[0].files[0]?.name;
-
-                    // 입력 값 검증
-                    if (!nameParam) {
-                        if (
-                            !name ||
-                            !mbti ||
-                            !blogLink ||
-                            !hobby ||
-                            !introduction ||
-                            !strengths ||
-                            !collaborationStyle ||
-                            !resolution ||
-                            !imageFile
-                        ) {
-                            alert('모든 항목을 입력해 주세요.');
-                            return;
-                        }
-                    } else {
-                        if (
-                            !name ||
-                            !mbti ||
-                            !blogLink ||
-                            !hobby ||
-                            !introduction ||
-                            !strengths ||
-                            !collaborationStyle ||
-                            !resolution
-                        ) {
-                            alert('모든 항목을 입력해 주세요.');
-                            return;
-                        }
-                    }
-
-                    try {
-                        let imageUrl = '';
-
-                        if (imageFile) {
-                            // 이미지 파일 업로드
-                            const storageRef = ref(
-                                storage,
-                                'images/' + imageFile.name
-                            );
-                            await uploadBytes(storageRef, imageFile);
-                            imageUrl = await getDownloadURL(storageRef);
-                        }
-
-                        // Firestore에 데이터 추가
-                        const docData = {
-                            name: name,
-                            mbti: mbti,
-                            blogLink: blogLink,
-                            hobby: hobby,
-                            introduction: introduction,
-                            strengths: strengths,
-                            collaborationStyle: collaborationStyle,
-                            resolution: resolution,
-                            // imageUrl: imageUrl,
-                            // oriFileName: oriFileName
-                        };
-
-                        // imageUrl이 존재할 경우에만 필드 추가
-                        if (imageUrl !== '') {
-                            docData.imageUrl = imageUrl;
-                        }
-
-                        if (nameParam && documentId) {
-                            // 멤버 업데이트 로직
-                            const memberDocRef = doc(db, 'members', documentId);
-                            await setDoc(memberDocRef, docData, {
-                                merge: true,
-                            });
-                            alert('멤버 카드가 성공적으로 수정되었습니다!');
-                            window.location.href = 'index.html';
-                        } else {
-                            // 새로운 멤버 추가 로직
-                            await addDoc(collection(db, 'members'), docData);
-                            alert('멤버 카드가 성공적으로 추가되었습니다!');
-                            window.location.href = 'index.html';
-                        }
-                    } catch (e) {
-                        console.error('에러발생!: ', e);
-                        alert('오류가 발생했습니다. 다시 시도해 주세요.');
-                    }
-                }
-            );
-
-            // 이미지 미리보기 기능 추가
-            $('#imageUpload').on('change', function (e) {
-                const [file] = e.target.files;
-
-                if (file) {
-                    $('#imagePreview').html(
-                        `<img src="${URL.createObjectURL(
-                            file
-                        )}" style="max-width: 100%; max-height: 100%;" alt="미리보기 이미지">`
-                    );
-                }
-            });
-
-            // MBTI 셀렉트 박스 초기 색상 설정
-            $('#mbti').css('color', '#6c757d');
-
-            // MBTI 셀렉트 박스 색상 변경
-            $('#mbti').on('change', function () {
-                if ($(this).val() === '') {
-                    $(this).css('color', '#6c757d');
-                } else {
-                    $(this).css('color', '#000000');
-                }
-            });
-        </script>
+        <!-- 관련 외부 스크립트 -->
+        <script src="./js/addcard.js" type="module"></script>
     </head>
 
     <body>
@@ -232,17 +45,17 @@
             </div>
         </header>
 
-        <!-- 이름 / mbti / 취미 / 자기소개 / 장점 / 협업 스타일 / 각오 -->
-
-        <div class="container mt-5 mb-5 px-5">
+        <!-- 정보 입력 section -->
+        <div class="container inputWrap">
             <h5 class="mb-4 subtitle" id="title">멤버 카드 추가하기</h5>
+
             <form id="memberForm">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
                             <div
                                 id="imagePreview"
-                                class="border border-secondary"
+                                class="border"
                                 style="
                                     width: 100%;
                                     height: 300px;
@@ -287,9 +100,7 @@
                         <div class="mb-3">
                             <label for="mbti" class="form-label">MBTI</label>
                             <select class="form-control" id="mbti" required>
-                                <option value="" style="color: #6c757d">
-                                    MBTI를 선택하세요
-                                </option>
+                                <option value="">MBTI를 선택하세요</option>
                                 <option value="INTJ">INTJ</option>
                                 <option value="INTP">INTP</option>
                                 <option value="ENTJ">ENTJ</option>
@@ -369,6 +180,10 @@
                 </div>
 
                 <div class="text-end">
+                    <button type="submit" class="btn btn-danger" id="cancel">
+                        취소하기
+                    </button>
+
                     <button type="submit" class="btn btn-primary" id="submit">
                         추가하기
                     </button>

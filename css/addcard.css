@@ -1,0 +1,12 @@
+label {
+    font-weight: 600;
+}
+
+#imagePreview {
+    border-radius: 0.5rem;
+}
+
+.inputWrap {
+    margin-top: 100px;
+    padding-bottom: 48px;
+}
