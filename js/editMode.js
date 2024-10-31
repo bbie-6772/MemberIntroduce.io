@@ -19,6 +19,7 @@ $('#editbtn').click(async function () {
         if (!querySnapshot.empty) {
             const doc = querySnapshot.docs[0];
             const data = doc.data();
+            
 
             if (data.key === key) {
                 alert('관리자로 확인이 되었습니다.');
@@ -26,6 +27,7 @@ $('#editbtn').click(async function () {
 
                 // 세션에 로그인 상태 저장
                 sessionStorage.setItem('editMode', 'true');
+                
             } else {
                 alert('잘못된 접근 입니다.');
             }
@@ -37,17 +39,16 @@ $('#editbtn').click(async function () {
         window.location.reload();
         window.location.href = 'index.html';
     }   
-    //세션 값 읽어오기
-const editMode = sessionStorage.getItem('editMode')
+    // const editMode = sessionStorage.getItem('editMode')
 // toggle 기능이 한번만 동작하도록 
-let editHidden = false;
+// let editHidden = false;
 
-// 관리자 모드 일 시 댓글삭제 버튼이 보이도록
-if (editMode !== 'true' && editHidden === false) {
-    $("button[name='plsbtn']").toggle();
-}else if (editMode === 'true' && editHidden === true) {
-    $("button[name='plsbtn']").toggle();
-    editHidden = false;
-} 
+// // 관리자 모드 일 시 댓글삭제 버튼이 보이도록
+// if (editMode !== 'true' && editHidden === false) {
+//     $('#plsbtn').toggle();
+// }else if (editMode === 'true' && editHidden === true) {
+//     $('#plsbtn').toggle();
+//     editHidden = false;
+// } 
 
 });
