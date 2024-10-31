@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
-        <!-- jquery script -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
         <!-- bootstrap script -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -12,11 +9,18 @@
             crossorigin="anonymous"
         />
 
+        <!-- 공용 스타일 css -->
+        <link rel="stylesheet" href="./css/style.css" />
+
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>공통</title>
+        <title>✨8조 다모여✨</title>
 
-        <script src="../js/firebase.js" type="module"></script>
+        <!-- edit mode script -->
+        <script src="./js/editMode.js" type="module"></script>
+
+        <!-- firebase script -->
+        <script src="./js/firebase.js" type="module"></script>
 
         <script type="module">
             import {
@@ -30,7 +34,7 @@
                 ref,
                 uploadBytes,
                 getDownloadURL,
-            } from '../js/firebase.js';
+            } from './js/firebase.js';
 
             // url에서 name(변경될 수 있음) 파라미터 가져오기
             function getQueryParam(param) {
@@ -208,51 +212,30 @@
     </head>
 
     <body>
-        <!-- 삭제할 부분. -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">My Website</a>
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                        aria-controls="navbarNav"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span class="navbar-toggler-icon"></span>
+        <!-- header section -->
+        <header class="header container-fluid">
+            <div
+                class="container d-flex justify-content-between align-items-center p-0"
+            >
+                <a class="title" href="index2.html">8조</a>
+
+                <div
+                    class="menu d-flex align-items-center"
+                    style="visibility: hidden"
+                >
+                    <a href="#tag1">멤버 소개</a>
+                    <a href="#tag2">방명록</a>
+                    <button id="editbtn" class="btn btn-primary ms-2">
+                        편집모드
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link active"
-                                    aria-current="page"
-                                    href="#"
-                                    >Home</a
-                                >
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
-            </nav>
+            </div>
         </header>
 
         <!-- 이름 / mbti / 취미 / 자기소개 / 장점 / 협업 스타일 / 각오 -->
 
         <div class="container mt-5 mb-5 px-5">
-            <h2 class="mb-4" id="title">멤버 카드 추가하기</h2>
+            <h5 class="mb-4 subtitle" id="title">멤버 카드 추가하기</h5>
             <form id="memberForm">
                 <div class="row">
                     <div class="col-md-4">

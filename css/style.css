@@ -1,0 +1,143 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'NanumSquare';
+
+    /* font-family: 'NanumSquareLight';
+    font-family: 'NanumSquare';
+    font-family: 'NanumSquareBold';
+    font-family: 'NanumSquareExtraBold'; */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+a {
+    margin: 0;
+}
+
+/* 태그 여백 조정 */
+#member,
+#guestbook {
+    scroll-margin-top: 80px; /* 헤더 높이만큼 여백 설정 */
+}
+
+/* 서브타이틀 폰트 스타일 */
+.subtitle {
+    font-weight: 600;
+}
+
+/* 헤더 스타일 */
+.header {
+    padding: 14px 0;
+    background-color: #ffffffd9;
+    font-weight: 700;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.menu {
+    gap: 20px;
+}
+
+.header .title {
+    font-family: 'DungGeunMo';
+    font-size: 1.5rem;
+}
+
+.header .title:hover {
+    color: inherit;
+}
+
+/* 배너 스타일 */
+.bannerWrap {
+    margin-top: 66px;
+
+    background-color: bisque;
+    width: 100%;
+    height: 300px;
+
+    background-image: url('../asset/images/bg_banner.png');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+
+    overflow: hidden;
+}
+
+.bannerWrap__content {
+    height: 100%;
+    padding: 0 10%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.bannerWrap__image-wrapper {
+    height: 90%;
+
+    margin-top: 30px;
+}
+
+.bannerWrap__image-wrapper img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.bannerWrap__text-content {
+    margin-bottom: 55px;
+}
+
+.bannerWrap__text-content * {
+    font-family: 'DungGeunMo' !important;
+}
+
+.bannerWrap__text-content h3 {
+    font-size: 3rem;
+}
+
+.bannerWrap__text-content h4,
+p {
+    margin-left: 50px;
+}
+
+/* 멤버카드, 방명록 공통 스타일 */
+.memberCardWrap h5,
+.guestbookWrap h5 {
+    margin-bottom: 16px;
+}
+
+/* 멤버 카드 스타일 */
+.memberCardWrap__content {
+    background: #eee;
+    height: 1000px;
+}
+
+/* 방명록 스타일 */
+.guestbookWrap__content {
+    background: #eee;
+    height: 1000px;
+}
