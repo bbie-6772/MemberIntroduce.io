@@ -26,6 +26,7 @@ docs.forEach((docRef) => {
     let text = row['comment'];
     let Date = row['date'];
     let when = row['createdAt'];
+    let color = row['color'];
 
     //객체 생성
     const li = document.createElement("li");
@@ -47,13 +48,12 @@ docs.forEach((docRef) => {
     //댓글 구분용 데이터 넣기
     h3.dataset.date = when.toDate();
 
-    //닉네임 랜덤 색깔
-    h3.style.color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
     //들어갈 값 정해주기
     btn_del.textContent = "삭제";
     date.textContent = Date;
     span.innerText = text;
     h3.textContent = name;
+    h3.style.color = color;
 
     //구조 묶어주기 
     div.append(h3);
@@ -68,38 +68,54 @@ docs.forEach((docRef) => {
 // 삭제 버튼 클릭 함수
 $(document).on("click", "button[name='delete']", async function () {
 
-    // 데이터 다시 읽어오기
+    // firebase 데이터 다시 읽어오기
     let checkDocs = await getDocs(query(collection(db, "comments"), orderBy("createdAt")));
+
     // 삭제 버튼을 누른 댓글에서 비교할 값 가져오기
     let nameCheck = $(this).prev().prev().find("h3").text();
     // floor 및 0.001 은 날짜 값을 올렸을 때 뒷자리 3자리가 "내림" 당한 값과 비교하기 위함
     let dateCheck = Math.floor(new Date($(this).prev().prev().find("h3").data('date')).getTime() * 0.001);
 
-    checkDocs.forEach((docRef => {
+    // 비밀번호 값이 비어있을 경우 프리패스
 
+
+
+    checkDocs.forEach((docRef) => {
+        // 데이터 조리해서 가져오기
         let row = docRef.data();
         let name = row['nickName'];
+        let pswdCheck = row['password'];
         // 위 설명대로 뒷자리 3자리 배제
         let date = Math.floor(row['createdAt'].toDate() * 0.001);
 
         // 이름과 작성된 날짜를 비교하여 삭제할 댓글 찾기
         if (name === nameCheck && date === dateCheck) {
 
-            //댓글을 firebase에서 삭제
-            deleteDoc(doc(db, "comments", docRef.id))
-            .then(() =>
+            // 비밀번호 비어있는지 확인
+            if (pswdCheck !== "" && pswdCheck !== undefined) {
+                let key = prompt('비밀번호를 입력해주세요.', '')
+
+                if (pswdCheck === key) {
+                    alert('비밀번호 일치')
+                    //댓글을 firebase에서 삭제
+                    deleteDoc(doc(db, "comments", docRef.id))
+                    //댓글을 화면에서 삭제
+                    $(this).parent().remove();
+                    //확인
+                    alert('성공적으로 삭제되었습니다!');
+                } else {
+                    alert('잘못된 접근입니다.');
+                }
+            } else {
+                //댓글을 firebase에서 삭제
+                deleteDoc(doc(db, "comments", docRef.id))
                 //댓글을 화면에서 삭제
-                $(this).parent().remove()
-                //성공 확인창 띄워주기
-                .then(() =>
-                    alert('성공적으로 삭제되었습니다!')
-                )
-            );
-            
-
+                $(this).parent().remove();
+                //확인
+                alert('성공적으로 삭제되었습니다!');
+            };
         };
-    }));
-
+    });
 });
 
 
@@ -111,6 +127,9 @@ $("#btn").click(async function () {
     let text = document.getElementById("ipText").value;
     let today = new Date().toLocaleDateString();
     let now = new Date();
+    let password = document.getElementById("ipPassword").value;
+    let color = "#" + parseInt(Math.random() * 0xffffff).toString(16);
+
     // 이름과 내용이 적혀있지 않을 경우 실행되지 않도록 설계
     if (!name) {
         const span = document.createElement("span");
@@ -126,12 +145,14 @@ $("#btn").click(async function () {
         name_point.before(span);
     } else if (text.length > 0) {
 
+        console.log(password);
         //올릴 값들을 정리하는 곳
         const innerDoc = {
             nickName: name,
             comment: text,
             date: today,
             createdAt: now,
+            password: password,
         };
 
         //값이 firebase에 올라가면 확인창
@@ -178,6 +199,7 @@ $("#btn").click(async function () {
     }
 });
 
+/*
 //세션 값 읽어오기
 const editMode = sessionStorage.getItem('editMode')
 // toggle 기능이 한번만 동작하도록 
@@ -190,4 +212,4 @@ if (editMode !== 'true' && btnHidden === false) {
     $("button[name='delete']").toggle();
     btnHidden = false;
 } 
-
+ */
