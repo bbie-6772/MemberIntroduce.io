@@ -1,8 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>✨8조 다모여✨</title>
+
         <!-- jquery script -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- edit mode script -->
+        <script src="./js/editMode.js" type="module"></script>
+
+        <!-- firebase script -->
+        <script src="./js/firebase.js" type="module"></script>
+
+        <!-- 방명록 코드-->
+        <script src="./js/guestbook.js" type="module"></script>
+
+        <!-- 멤버 카드 및 모달 script -->
+        <script type="module" src="./js/newMemberCard.js"></script>
+        <script type="module" src="./js/newModal.js"></script>
 
         <!-- Animate.css -->
         <link
@@ -18,6 +36,12 @@
             crossorigin="anonymous"
         />
 
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
         <!-- 공용 스타일 css -->
         <link rel="stylesheet" href="./css/style.css" />
 
@@ -25,23 +49,10 @@
         <link rel="stylesheet" href="./css/guestbook.css" />
 
         <!-- 멤버 카드 css -->
-        <link rel="stylesheet" href="./css/cardmodal.css" />
+        <link rel="stylesheet" href="./css/newMemberCard.css" />
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>✨8조 다모여✨</title>
-
-        <!-- edit mode script -->
-        <script src="./js/editMode.js" type="module"></script>
-
-        <!-- firebase script -->
-        <script src="./js/firebase.js" type="module"></script>
-
-        <!-- 방명록 코드-->
-        <script src="./js/guestbook.js" type="module"></script>
-
-        <!-- member card script-->
-        <script src="./js/cardmodal.js" type="module"></script>
+        <!-- 멤버 카드 모달 css -->
+        <link rel="stylesheet" href="./css/newModal.css" />
     </head>
 
     <body>
@@ -92,23 +103,103 @@
                 </h5>
 
                 <div class="memberCardWrap__content">
-                    <div class="card-container" id="cardlist">
-                        <button id="plsbtn" type="button" class="plsbt">
-                            <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMCyyoX0vaRyKKoMOpIYS0LA94ZYOKGJmHvd_8g-KJIbLX1XVImG79MgC04rNNm46jJk&usqp=CAU"
-                                alt="이미지"
-                            />
-                        </button>
-                    </div>
+                    <!-- 멤버 카드가 추가될 컨테이너 -->
+                    <div class="card-container" id="cardContainer"></div>
                 </div>
             </div>
 
-            <div class="popup-overlay" id="popup">
-                <div class="popup-content">
-                    <!-- <h4>팝업 창</h4>
-                        <p>이름: <span id="popup-name"></span></p> -->
-                    <div id="popup_content">
-                        <button class="close-btn" id="clbtn">닫기</button>
+            <!-- Modal 구조 -->
+            <div id="memberModal" class="modal" style="display: none">
+                <div class="modal-content">
+                    <button class="close-btn">X</button>
+
+                    <!-- 탭 메뉴 -->
+                    <div class="modal-tabs">
+                        <button id="introTab" class="modal-tab active">
+                            멤버 소개
+                        </button>
+                        <button id="tmiTab" class="modal-tab">멤버 TMI</button>
+                    </div>
+
+                    <!-- 메인 프로필 섹션 -->
+                    <div class="modal-main-profile">
+                        <!-- 왼쪽 이미지 섹션 -->
+                        <div class="modal-image-container">
+                            <img
+                                id="modalImage"
+                                src=""
+                                alt="멤버 이미지"
+                                class="modal-image"
+                            />
+
+                            <a id="modalBlogLink" href="#" target="_blank"></a>
+                        </div>
+
+                        <!-- 오른쪽 정보 섹션 -->
+                        <div class="modal-info-container">
+                            <div class="modal-info-item">
+                                <p id="modalName" class="modal-name"></p>
+                                <p id="modalMbti" class="modal-mbti"></p>
+                            </div>
+
+                            <hr />
+
+                            <!-- 탭 콘텐츠 intro -->
+                            <div
+                                id="introContent"
+                                class="modal-tab-content"
+                                style="display: flex"
+                            >
+                                <div class="modal-info-item">
+                                    <strong>취미</strong>
+                                    <p id="modalHobby"></p>
+                                </div>
+
+                                <div class="modal-info-item">
+                                    <strong>자기소개</strong>
+                                    <p id="modalIntroduction"></p>
+                                </div>
+                            </div>
+
+                            <!-- 탭 콘텐츠 tmi -->
+                            <div
+                                id="tmiContent"
+                                class="modal-tab-content"
+                                style="display: none"
+                            >
+                                <div class="modal-info-item">
+                                    <strong>장점</strong>
+                                    <p id="modalStrengths"></p>
+                                </div>
+
+                                <div class="modal-info-item">
+                                    <strong>협업 스타일</strong>
+                                    <p id="modalCollaborationStyle"></p>
+                                </div>
+
+                                <div class="modal-info-item">
+                                    <strong>각오</strong>
+                                    <p id="modalResolution"></p>
+                                </div>
+                            </div>
+
+                            <!-- <p>*프로필을 누르면 개발 블로그로 연결됩니다!</p> -->
+                        </div>
+                    </div>
+
+                    <div class="modalWrap-footer">
+                        <button
+                            id="modalModi"
+                            class="btn btn-sm btn-outline-primary"
+                        >
+                            수정하기
+                        </button>
+                        <button
+                            id="modalDel"
+                            class="btn btn-sm btn-outline-danger"
+                        >
+                            삭제하기
+                        </button>
                     </div>
                 </div>
             </div>
@@ -139,13 +230,14 @@
                                         placeholder="닉네임"
                                         aria-label="닉네임"
                                     />
-                                    <input 
-                                        id="ipPassword" 
-                                        type="text" 
-                                        class="nameBox" 
-                                        placeholder="비밀번호" 
-                                        aria-label="비밀번호" />
-                                
+                                    <input
+                                        id="ipPassword"
+                                        type="text"
+                                        class="nameBox"
+                                        placeholder="비밀번호"
+                                        aria-label="비밀번호"
+                                    />
+
                                     <button
                                         onclick=""
                                         class="btn btn-primary px-4"
