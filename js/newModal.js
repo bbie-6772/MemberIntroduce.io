@@ -14,6 +14,8 @@ const $modalStrengths = $('#modalStrengths');
 const $modalResolution = $('#modalResolution');
 const $closeBtn = $('.close-btn');
 const $modalDel = $('#modalDel'); // 삭제 버튼
+const $modalModi = $('#modalModi'); // 수정 버튼
+const $modalFooter = $('.modalWrap-footer'); // 수정 및 삭제 버튼 래퍼
 
 let currentDocId = null; // 현재 열려 있는 멤버의 Firebase 문서 ID
 
@@ -34,6 +36,10 @@ function openModal(memberData) {
         ? memberData.blogLink
         : `https://${memberData.blogLink}`;
     $modalBlogLink.attr('href', blogLink).text('💚블로그 보러 가기💚');
+
+    // editMode가 true일 때만 수정/삭제 버튼 보이도록 설정
+    const isEditMode = sessionStorage.getItem('editMode') === 'true';
+    $modalFooter.css('display', isEditMode ? 'flex' : 'none');
 
     $modal.fadeIn(); // 모달 열기 애니메이션
     $('#memberModal').css('display', 'flex');
@@ -72,7 +78,8 @@ $('.modal-tab').on('click', function () {
     $(contentId).show().addClass('active');
 });
 
-$('#modalModi').click(function () {
+// 수정 버튼 클릭 이벤트
+$modalModi.click(function () {
     window.location.href = `addcard.html?name=${$modalName.text()}`;
 });
 
