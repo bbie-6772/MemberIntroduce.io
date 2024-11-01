@@ -1,53 +1,258 @@
 <!DOCTYPE html>
 <html lang="ko">
-    
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+        <title>✨8조 다모여✨</title>
 
-    <script type="module">
+        <!-- jquery script -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        $(document).ready(function() {
+        <!-- edit mode script -->
+        <script src="./js/editMode.js" type="module"></script>
 
-            $(#header).load("include/header.html");
-           
-            $(#guestbook).load("include/guestbook.html");
+        <!-- firebase script -->
+        <script src="./js/firebase.js" type="module"></script>
 
-            $(#membercard).load("include/membercard.html");
-            
-            $(#cardmodal).load("include/cardmodal.html");
+        <!-- 방명록 코드-->
+        <script src="./js/guestbook.js" type="module"></script>
 
-            $(#addcard).load("include/addcard.html");
-            
-        })
+        <!-- 멤버 카드 및 모달 script -->
+        <script type="module" src="./js/newMemberCard.js"></script>
+        <script type="module" src="./js/newModal.js"></script>
 
-    </script>
+        <!-- Animate.css -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
 
+        <!-- bootstrap script -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
 
-</head>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
 
-<body>
-    <header id="header">
-    </header>
+        <!-- 공용 스타일 css -->
+        <link rel="stylesheet" href="./css/style.css" />
 
-    <div id="addcard">
+        <!-- 방명록 스타일-->
+        <link rel="stylesheet" href="./css/guestbook.css" />
 
-    </div>
+        <!-- 멤버 카드 css -->
+        <link rel="stylesheet" href="./css/newMemberCard.css" />
 
-    <div id="membercard">
+        <!-- 멤버 카드 모달 css -->
+        <link rel="stylesheet" href="./css/newModal.css" />
+    </head>
 
-    </div>
+    <body>
+        <!-- header section -->
+        <header class="header container-fluid">
+            <div
+                class="container d-flex justify-content-between align-items-center p-0"
+            >
+                <a class="title" href="index.html">8조</a>
 
-    <div id="cardmodal">
+                <div class="menu d-flex align-items-center">
+                    <a href="#member">멤버 소개</a>
+                    <a href="#guestbook">방명록</a>
+                    <button id="editbtn" class="btn btn-primary ms-2">
+                        편집모드
+                    </button>
+                </div>
+            </div>
+        </header>
 
-    </div>
+        <!-- banner section -->
+        <div class="bannerWrap">
+            <div class="bannerWrap__content">
+                <div
+                    class="bannerWrap__image-wrapper animate__animated animate__fadeInLeft"
+                >
+                    <img src="asset/images/fireRtan.png" alt="banner image" />
+                </div>
 
-    <div id="guestbook">
+                <div
+                    class="bannerWrap__text-content animate__animated animate__fadeInUp"
+                >
+                    <h3 class="bannerWrap__title">🔥This is SPARTA🔥</h3>
+                    <h4 class="bannerWrap__subtitle">우리는 8조, 88ㅎrZl</h4>
+                    <p class="bannerWrap__description">
+                        이번 기수 마무리하고 판교 가즈아~<br />
+                        나는 디지털노마드가 될거야~~~<br />
+                    </p>
+                </div>
+            </div>
+        </div>
 
-    </div>
+        <div class="py-5">
+            <!-- member card section -->
+            <div class="container memberCardWrap mb-5">
+                <h5 id="member" class="subtitle">
+                    자랑스런 저희 멤버들을 소개할게요😁
+                </h5>
 
-</body>
+                <div class="memberCardWrap__content">
+                    <!-- 멤버 카드가 추가될 컨테이너 -->
+                    <div class="card-container" id="cardContainer"></div>
+                </div>
+            </div>
+
+            <!-- Modal 구조 -->
+            <div id="memberModal" class="modal" style="display: none">
+                <div class="modal-content">
+                    <button class="close-btn">X</button>
+
+                    <!-- 탭 메뉴 -->
+                    <div class="modal-tabs">
+                        <button id="introTab" class="modal-tab active">
+                            멤버 소개
+                        </button>
+                        <button id="tmiTab" class="modal-tab">멤버 TMI</button>
+                    </div>
+
+                    <!-- 메인 프로필 섹션 -->
+                    <div class="modal-main-profile">
+                        <!-- 왼쪽 이미지 섹션 -->
+                        <div class="modal-image-container">
+                            <img
+                                id="modalImage"
+                                src=""
+                                alt="멤버 이미지"
+                                class="modal-image"
+                            />
+
+                            <a id="modalBlogLink" href="#" target="_blank"></a>
+                        </div>
+
+                        <!-- 오른쪽 정보 섹션 -->
+                        <div class="modal-info-container">
+                            <div class="modal-info-item">
+                                <p id="modalName" class="modal-name"></p>
+                                <p id="modalMbti" class="modal-mbti"></p>
+                            </div>
+
+                            <hr />
+
+                            <!-- 탭 콘텐츠 intro -->
+                            <div
+                                id="introContent"
+                                class="modal-tab-content"
+                                style="display: flex"
+                            >
+                                <div class="modal-info-item">
+                                    <strong>취미</strong>
+                                    <p id="modalHobby"></p>
+                                </div>
+
+                                <div class="modal-info-item">
+                                    <strong>자기소개</strong>
+                                    <p id="modalIntroduction"></p>
+                                </div>
+                            </div>
+
+                            <!-- 탭 콘텐츠 tmi -->
+                            <div
+                                id="tmiContent"
+                                class="modal-tab-content"
+                                style="display: none"
+                            >
+                                <div class="modal-info-item">
+                                    <strong>장점</strong>
+                                    <p id="modalStrengths"></p>
+                                </div>
+
+                                <div class="modal-info-item">
+                                    <strong>협업 스타일</strong>
+                                    <p id="modalCollaborationStyle"></p>
+                                </div>
+
+                                <div class="modal-info-item">
+                                    <strong>각오</strong>
+                                    <p id="modalResolution"></p>
+                                </div>
+                            </div>
+
+                            <!-- <p>*프로필을 누르면 개발 블로그로 연결됩니다!</p> -->
+                        </div>
+                    </div>
+
+                    <div class="modalWrap-footer">
+                        <button
+                            id="modalModi"
+                            class="btn btn-sm btn-outline-primary"
+                        >
+                            수정하기
+                        </button>
+                        <button
+                            id="modalDel"
+                            class="btn btn-sm btn-outline-danger"
+                        >
+                            삭제하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- guestbook section -->
+            <div class="container guestbookWrap">
+                <h5 id="guestbook" class="subtitle">
+                    남기고 싶은 이야기가 있으신가요❓
+                </h5>
+
+                <div class="guestbookWrap__content">
+                    <div class="bigBox">
+                        <div class="mainBox">
+                            <div class="subBox">
+                                <textarea
+                                    id="ipText"
+                                    cols="30"
+                                    rows="5"
+                                    class="textBox"
+                                    placeholder="남기고 싶은 이야기를 적어주세요"
+                                    aria-label="남기고 싶은 이야기를 적어주세요"
+                                ></textarea>
+                                <div class="subBox2">
+                                    <input
+                                        id="ipName"
+                                        type="text"
+                                        class="nameBox"
+                                        placeholder="닉네임"
+                                        aria-label="닉네임"
+                                    />
+                                    <input
+                                        id="ipPassword"
+                                        type="text"
+                                        class="nameBox"
+                                        placeholder="비밀번호"
+                                        aria-label="비밀번호"
+                                    />
+
+                                    <button
+                                        onclick=""
+                                        class="btn btn-primary px-4"
+                                        type="button"
+                                        id="btn"
+                                    >
+                                        작성
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="opBox" id="cmBox"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
