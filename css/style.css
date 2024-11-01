@@ -30,7 +30,8 @@ h5,
 p,
 a,
 ul,
-li {
+li,
+hr {
     margin: 0;
 }
 
@@ -130,16 +131,4 @@ li {
 .memberCardWrap h5,
 .guestbookWrap h5 {
     margin-bottom: 16px;
-}
-
-/* 멤버 카드 스타일 */
-.memberCardWrap__content {
-    /* background: #eee; */
-    /* height: 1000px; */
-}
-
-/* 방명록 스타일 */
-.guestbookWrap__content {
-    /* background: #eee; */
-    /* height: 1000px; */
 }
